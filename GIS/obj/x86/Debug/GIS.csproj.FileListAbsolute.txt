@@ -1,0 +1,16 @@
+C:\Users\student_403b\Desktop\VS2010\GIS\GIS\obj\x86\Debug\GIS.Properties.Resources.resources
+C:\Users\student_403b\Desktop\VS2010\GIS\GIS\obj\x86\Debug\GIS.csproj.GenerateResource.Cache
+C:\Users\student_403b\Desktop\VS2010\GIS\GIS\bin\Debug\GIS.exe
+C:\Users\student_403b\Desktop\VS2010\GIS\GIS\bin\Debug\GIS.pdb
+C:\Users\student_403b\Desktop\VS2010\GIS\GIS\obj\x86\Debug\GIS.exe
+C:\Users\student_403b\Desktop\VS2010\GIS\GIS\obj\x86\Debug\GIS.pdb
+C:\Users\student_403b\Desktop\VS2010\GIS\GIS\obj\x86\Debug\GIS.csprojResolveAssemblyReference.cache
+C:\Users\Николай\Documents\GIS\GIS\obj\x86\Debug\GIS.exe
+C:\Users\Николай\Documents\GIS\GIS\obj\x86\Debug\GIS.pdb
+C:\Users\Николай\Documents\GIS\GIS\obj\x86\Debug\GIS.csprojResolveAssemblyReference.cache
+C:\Users\Николай\Documents\GIS\GIS\obj\x86\Debug\GIS.Properties.Resources.resources
+C:\Users\Николай\Documents\GIS\GIS\obj\x86\Debug\GIS.csproj.GenerateResource.Cache
+C:\Users\Николай\Documents\GIS\GIS\bin\Debug\GIS.exe
+C:\Users\Николай\Documents\GIS\GIS\bin\Debug\GIS.pdb
+C:\Users\Николай\Documents\GIS\GIS\obj\x86\Debug\GIS.Form1.resources
+C:\Users\Николай\Documents\GIS\GIS\obj\x86\Debug\GIS.Map.resources
