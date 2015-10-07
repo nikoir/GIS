@@ -8,7 +8,7 @@ namespace GIS
 {
     class Map: UserControl
     {
-        List<Layer> Layers;
+        List<Layer> Layers = new List<Layer>();
         public GeoPoint Center { get; set; }
         public double Scale { get; set; }
         public Map(GeoPoint Center)
@@ -37,9 +37,18 @@ namespace GIS
         protected override void OnPaint(PaintEventArgs e)
         {
             System.Drawing.Graphics g = this.CreateGraphics();
-            g.Clear(System.Drawing.Color.Gray);
-            g.DrawRectangle(new System.Drawing.Pen(System.Drawing.Color.Black), new System.Drawing.Rectangle(0, 0, this.Width - 1, this.Height - 1));
-            //Отрисовка всех слоев
+            //g.Clear(System.Drawing.Color.Gray);
+            //g.DrawRectangle(new System.Drawing.Pen(System.Drawing.Color.Black), new System.Drawing.Rectangle(0, 0, this.Width - 1, this.Height - 1));
+            if (Layers.Count != 0)
+                foreach (Layer lr in Layers)
+                {
+                    if (lr.Visible)
+                    {
+                        if (lr.MapObjects.Count != 0)
+                            foreach (MapObject mp in lr.MapObjects)
+                                mp.Draw(g);
+                    }
+                }
         }
 
         private void InitializeComponent()
@@ -52,6 +61,11 @@ namespace GIS
             this.Size = new System.Drawing.Size(153, 151);
             this.ResumeLayout(false);
 
+        }
+        public void AddLayer(Layer layer)
+        {
+            layer.CurrentMap = this;
+            Layers.Add(layer);
         }
     }
 }

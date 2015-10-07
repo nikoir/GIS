@@ -14,14 +14,14 @@ namespace GIS
         {
             return base.Length() + Math.Sqrt((Nodes[0].X - Nodes[Nodes.Count - 1].X) * (Nodes[0].X - Nodes[Nodes.Count - 1].X) + (Nodes[0].Y - Nodes[Nodes.Count - 1].Y) * (Nodes[0].Y - Nodes[Nodes.Count - 1].Y));
         }
-        public override void Draw(PaintEventArgs e)
+        public override void Draw(System.Drawing.Graphics g)
         {
             if (Nodes.Count != 0 && Check())
             {
                 Point[] PointArray = new Point[Nodes.Count];
                 for (int i = 0; i < Nodes.Count; i++)
                     PointArray[i] = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
-                e.Graphics.FillPolygon(new SolidBrush(Color.Red), PointArray);
+                g.FillPolygon(new SolidBrush(Color.Red), PointArray);
 
             }
             else

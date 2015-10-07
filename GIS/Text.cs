@@ -21,10 +21,10 @@ namespace GIS
             this.BeginPoint = BeginPoint;
         }
 
-        public override void Draw(PaintEventArgs e)
+        public override void Draw(System.Drawing.Graphics g)
         {
             if (Check())
-                e.Graphics.DrawString(text, new Font("Arial", 14), new SolidBrush(Color.Black), CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+                g.DrawString(text, new Font("Arial", 14), new SolidBrush(Color.Black), CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
             else
                 return;
         }

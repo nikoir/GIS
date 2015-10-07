@@ -9,11 +9,11 @@ namespace GIS
     {
         public bool Visibility { get; set; }
         public bool Salience { get; set; }
-        public Layer CurrentLayer { get; private set; }
-        public void AddLayer(Layer layer)
-        {
-            this.CurrentLayer = layer;
-        }
+        public Layer CurrentLayer { get; set; }
+        //public void AddLayer(Layer layer)
+        //{
+        //    this.CurrentLayer = layer;
+        //}
 
         protected bool Check()
         {
@@ -21,6 +21,6 @@ namespace GIS
                 return false;
             return true;
         }
-        abstract public void Draw(System.Windows.Forms.PaintEventArgs e);
+        abstract public void Draw(System.Drawing.Graphics g);
     }
 }

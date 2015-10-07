@@ -48,7 +48,7 @@ namespace GIS
             }
             return length;
         }
-        public override void Draw(PaintEventArgs e)
+        public override void Draw(System.Drawing.Graphics g)
         {
             if (Check())
             {
@@ -59,7 +59,7 @@ namespace GIS
                     p1 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
                     p2 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i + 1]);
                     Pen p = new Pen(Color.Black, 5);
-                    e.Graphics.DrawLine(p, p1, p2);
+                    g.DrawLine(p, p1, p2);
                 }
             }
             else

@@ -30,14 +30,14 @@ namespace GIS
             return Math.Sqrt((GeoPoinBegin.X - GeoPointEnd.X) * (GeoPoinBegin.X - GeoPointEnd.X) + (GeoPoinBegin.Y - GeoPointEnd.Y) * (GeoPoinBegin.Y - GeoPointEnd.Y));
         }
 
-        public override void Draw(PaintEventArgs e)
+        public override void Draw(System.Drawing.Graphics g)
         {
             if (Check())
             {
                 Point p1 = CurrentLayer.CurrentMap.MapToScreen(GeoPoinBegin);
                 Point p2 = CurrentLayer.CurrentMap.MapToScreen(GeoPointEnd);
                 Pen p = new Pen(Color.Black, 5);
-                e.Graphics.DrawLine(p, p1, p2);
+                g.DrawLine(p, p1, p2);
             }
             else
                 return;

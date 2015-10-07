@@ -7,18 +7,23 @@ namespace GIS
 {
     class Layer
     {
-        List<MapObject> MapObjects;
+        public List<MapObject> MapObjects { get; private set; }
         public string Name { get; set; }
         public bool Visible { get; set; }
-        public Map CurrentMap { get; private set; }
+        public Map CurrentMap { get; set; }
         int Order { get; set; } //Порядковый номер слоя
         public Layer()
         {
             MapObjects = new List<MapObject>();
         }
-        public void AddMap(Map map)
+        public void AddMapObject(MapObject mp)
         {
-            this.CurrentMap = map;
+            mp.CurrentLayer = this;
+            MapObjects.Add(mp);
         }
+        //public void AddMap(Map map)
+        //{
+        //    this.CurrentMap = map;
+        //}
     }
 }
