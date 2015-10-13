@@ -59,6 +59,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MapObject.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Polygon.cs" />
     <Compile Include="Polyline.cs" />
     <Compile Include="Program.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace GIS
 {
@@ -10,10 +11,20 @@ namespace GIS
         public bool Visibility { get; set; }
         public bool Salience { get; set; }
         public Layer CurrentLayer { get; set; }
-        //public void AddLayer(Layer layer)
-        //{
-        //    this.CurrentLayer = layer;
-        //}
+        bool selected;
+        public bool Selected
+        {
+            get
+            {
+                return selected;
+            }
+            set
+            {
+                selected = value;
+                CurrentLayer.CurrentMap.Invalidate();
+                InvertColor();
+            }
+        }
 
         protected bool Check()
         {
@@ -22,5 +33,8 @@ namespace GIS
             return true;
         }
         abstract public void Draw(System.Drawing.Graphics g);
+        abstract public GeoPoint FindMaxCoord();
+        abstract public bool IsCross(GeoPoint gp, double delta);
+        abstract public void InvertColor();
     }
 }

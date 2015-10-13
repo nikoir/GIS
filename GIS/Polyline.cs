@@ -11,6 +11,7 @@ namespace GIS
     class Polyline: MapObject
     {
         protected List<GeoPoint> Nodes { get; private set; }
+        public Pen p { get; set; }
         public Polyline()
         {
             Nodes = new List<GeoPoint>();
@@ -32,6 +33,12 @@ namespace GIS
             else
                 throw new IndexOutOfRangeException();
         }
+
+        public override void InvertColor()
+        {
+            p.Color = Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B);
+        }
+
         public GeoPoint GetNode(int index)
         {
             if (index < Nodes.Count)
@@ -39,26 +46,82 @@ namespace GIS
             else
                 throw new IndexOutOfRangeException();
         }
+
+        public override bool IsCross(GeoPoint gp, double delta)
+        {
+            double result;
+            double MinY;
+            double MinX;
+            double MaxX;
+            double MaxY;
+            for (int i = 0; i < Nodes.Count - 1; i++)
+            {
+                result = Math.Abs(((Nodes[i].Y - Nodes[i + 1].Y) * gp.X + (Nodes[i + 1].X - Nodes[i].X) * gp.Y + Nodes[i].X * Nodes[i + 1].Y - Nodes[i + 1].X * Nodes[i].Y) / Math.Sqrt((Nodes[i + 1].X - Nodes[i].X) * (Nodes[i + 1].X - Nodes[i].X) + (Nodes[i + 1].Y - Nodes[i].Y) * (Nodes[i + 1].Y - Nodes[i].Y)));
+                if (Nodes[i].X > Nodes[i + 1].X)
+                {
+                    MaxX = Nodes[i].X;
+                    MinX = Nodes[i + 1].X;
+                }
+                else
+                {
+                    MaxX = Nodes[i + 1].X;
+                    MinX = Nodes[i].X;
+                }
+                if (Nodes[i].Y > Nodes[i + 1].Y)
+                {
+                    MaxY = Nodes[i].Y;
+                    MinY = Nodes[i + 1].Y;
+                }
+                else
+                {
+                    MaxY = Nodes[i + 1].Y;
+                    MinY = Nodes[i].Y;
+                }
+                if (result <= p.Width/2 + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+                    return true;
+            }
+            return false;
+        }
+
+        public override GeoPoint FindMaxCoord()
+        {
+            if (Nodes.Count != 0)
+            {
+                GeoPoint gp = new GeoPoint();
+                double MaxX = Nodes[0].X;
+                double MaxY = Nodes[0].Y;
+                foreach (var Node in Nodes)
+                {
+                    if (Node.X > MaxX)
+                        MaxX = Node.X;
+                    if (Node.Y > MaxY)
+                        MaxY = Node.Y;
+                }
+                gp.X = MaxX;
+                gp.Y = MaxY;
+                return gp;
+            }
+            else
+                return null;
+        }
+
         public virtual double Length()
         {
             double length = 0;
             for(int i = 0; i < Nodes.Count - 1; i++)
-            {
                 length += Math.Sqrt((Nodes[i].X - Nodes[i + 1].X) * (Nodes[i].X - Nodes[i + 1].X) + (Nodes[i].Y - Nodes[i + 1].Y) * (Nodes[i].Y - Nodes[i + 1].Y));
-            }
             return length;
         }
         public override void Draw(System.Drawing.Graphics g)
         {
             if (Check())
             {
-                Point p1;
-                Point p2;
+                System.Drawing.Point p1;
+                System.Drawing.Point p2;
                 for (int i = 0; i < Nodes.Count - 1; i++)
                 {
                     p1 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
                     p2 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i + 1]);
-                    Pen p = new Pen(Color.Black, 5);
                     g.DrawLine(p, p1, p2);
                 }
             }
