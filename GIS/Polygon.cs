@@ -43,9 +43,9 @@ namespace GIS
             int count = 0; //счетчик для подсчета количества пересечений луча
             //Уравнение первой прямой
             double Straight1X0 = gp.X;
-            double Straight1X1 = CurrentLayer.CurrentMap.FindMaxCoord().X;
+            double Straight1X1 = CurrentLayer.MaxCoords.X;
             double Straight1Y0 = gp.Y;
-            double Straight1Y1 = CurrentLayer.CurrentMap.FindMaxCoord().Y;
+            double Straight1Y1 = CurrentLayer.MaxCoords.Y;
             double A1 = Straight1Y1-Straight1Y0;
             double B1 = -(Straight1X1 - Straight1X0);
             double C1 = Straight1Y0*(Straight1X1 - Straight1X0) - Straight1X0*(Straight1Y1 - Straight1Y0);

@@ -41,13 +41,13 @@ namespace GIS
                         p = new Point(Convert.ToDouble(Coords[1]), Convert.ToDouble(Coords[2]), Convert.ToChar(Convert.ToInt32(Symbol[1]) + 1));
                         Color color = IntToColor(Convert.ToInt32(Symbol[2]));
                         p.sb = new SolidBrush(color);
-                        p.Font = new Font("Map Symbols", Convert.ToInt32(Symbol[3]));
+                        p.Font = new Font("MapInfo Symbols", Convert.ToInt32(Symbol[3]));
                     }
                     else
                     {
                         p = new Point(Convert.ToDouble(Coords[1]), Convert.ToDouble(Coords[2]), '*');
                         p.sb = new SolidBrush(Color.Black);
-                        p.Font = new Font("Map Symbols", 18);
+                        p.Font = new Font("MapInfo Symbols", 18);
                     }
                     p.Visibility = true;
                     lr.AddMapObject(p);

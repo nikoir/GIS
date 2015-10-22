@@ -73,7 +73,7 @@ namespace GIS
                     MaxY = Nodes[i + 1].Y;
                     MinY = Nodes[i].Y;
                 }
-                if (result <= (p.Width / 2 * this.CurrentLayer.CurrentMap.MapScale) + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+                if (result <= (p.Width / (2 * this.CurrentLayer.CurrentMap.MapScale)) + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
                     return true;
             }
             return false;

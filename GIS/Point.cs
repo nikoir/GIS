@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace GIS
 {
@@ -27,12 +28,11 @@ namespace GIS
 
         public override bool IsCross(GeoPoint gp, double delta)
         {
-            Graphics context = Graphics.FromHwnd(CurrentLayer.CurrentMap.Handle);
             double MaxX = FindMaxCoord().X;
             double MaxY = FindMaxCoord().Y;
             double MinX = BeginPoint.X;
-            double MinY = BeginPoint.Y - context.MeasureString(new string(Symbol, 1), Font).Height;
-            if (gp.X <= MaxX/this.CurrentLayer.CurrentMap.MapScale + delta && gp.X >= MinX / this.CurrentLayer.CurrentMap.MapScale - delta && gp.Y <= MaxY / this.CurrentLayer.CurrentMap.MapScale + delta && gp.Y >= MinY / this.CurrentLayer.CurrentMap.MapScale - delta)
+            double MinY = BeginPoint.Y - (TextRenderer.MeasureText(new string(Symbol, 1), Font).Height / this.CurrentLayer.CurrentMap.MapScale);
+            if (gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
                 return true;
             else
                 return false;
@@ -55,9 +55,10 @@ namespace GIS
 
         public override GeoPoint FindMaxCoord()
         {
-            Graphics context = Graphics.FromHwnd(CurrentLayer.CurrentMap.Handle);
             SizeF size;
-            size = context.MeasureString(new string(Symbol, 1), Font);
+            size = TextRenderer.MeasureText(new string(Symbol, 1), Font);
+            size.Height /= (float)CurrentLayer.CurrentMap.MapScale;
+            size.Width /= (float)CurrentLayer.CurrentMap.MapScale;
             return new GeoPoint(BeginPoint.X + size.Width, BeginPoint.Y + size.Height);
         }
     }

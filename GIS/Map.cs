@@ -11,6 +11,7 @@ namespace GIS
         List<Layer> Layers = new List<Layer>();
         GeoPoint center;
         public bool EnableSelection { get; set; }
+
         public GeoPoint Center
         {
             get
@@ -142,22 +143,6 @@ namespace GIS
             layer.CurrentMap = this;
             layer.Order = Layers.Count;
             Layers.Add(layer);
-        }
-        public GeoPoint FindMaxCoord()
-        {
-            if (Layers.Count != 0)
-            {
-                Layer layer = null;
-                foreach (Layer l in Layers)
-                    if (l.Visible)
-                    {
-                        layer = l;
-                        break;
-                    }
-                return layer.FindMaxCoord();
-            }
-            else
-                return null;
         }
     }
 }

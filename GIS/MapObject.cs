@@ -10,7 +10,18 @@ namespace GIS
     {
         public bool Visibility { get; set; }
         public bool Salience { get; set; }
-        public Layer CurrentLayer { get; set; }
+        public Layer currentLayer;
+        public Layer CurrentLayer
+        {
+            get
+            {
+                return currentLayer;
+            }
+            set
+            {
+                currentLayer = value;
+            }
+        }
         public int Priority { get; protected set; }
         bool selected;
         public bool Selected

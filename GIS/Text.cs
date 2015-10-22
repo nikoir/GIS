@@ -25,11 +25,10 @@ namespace GIS
 
         public override bool IsCross(GeoPoint gp, double delta)
         {
-            Graphics context = Graphics.FromHwnd(CurrentLayer.CurrentMap.Handle);
             double MaxX = FindMaxCoord().X;
             double MaxY = FindMaxCoord().Y;
             double MinX = BeginPoint.X;
-            double MinY = BeginPoint.Y - context.MeasureString(text, Font).Height;
+            double MinY = BeginPoint.Y - TextRenderer.MeasureText(text, Font).Height;
             if (gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
                 return true;
             else
@@ -53,9 +52,10 @@ namespace GIS
 
         public override GeoPoint FindMaxCoord()
         {
-            Graphics context = Graphics.FromHwnd(CurrentLayer.CurrentMap.Handle);
             SizeF size;
-            size = context.MeasureString(text, Font);
+            size = TextRenderer.MeasureText(text, Font);
+            size.Height /= (float)CurrentLayer.CurrentMap.MapScale;
+            size.Width /= (float)CurrentLayer.CurrentMap.MapScale;
             return new GeoPoint(BeginPoint.X + size.Width, BeginPoint.Y + size.Height);
         }
 

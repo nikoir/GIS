@@ -11,6 +11,7 @@ namespace GIS
         public string Name { get; set; }
         public bool Visible { get; set; }
         public Map CurrentMap { get; set; }
+        public GeoPoint MaxCoords { get; private set; }
         public int Order { get; set; } //Порядковый номер слоя
         public Layer()
         {
@@ -27,15 +28,17 @@ namespace GIS
             {
                 double MaxX;
                 double MaxY;
+                GeoPoint MaxCoords = new GeoPoint();
                 GeoPoint gp = new GeoPoint();
                 MaxX = MapObjects[0].FindMaxCoord().X;
                 MaxY = MapObjects[0].FindMaxCoord().Y;
                 foreach (var MapObject in MapObjects)
                 {
-                    if (MapObject.FindMaxCoord().X > MaxX)
-                        MaxX = MapObject.FindMaxCoord().X;
-                    if (MapObject.FindMaxCoord().Y > MaxY)
-                        MaxY = MapObject.FindMaxCoord().Y;
+                    MaxCoords = MapObject.FindMaxCoord();
+                    if (MaxCoords.X > MaxX)
+                        MaxX = MaxCoords.X;
+                    if (MaxCoords.Y > MaxY)
+                        MaxY = MaxCoords.Y;
                     gp.X = MaxX;
                     gp.Y = MaxY;
                 }
@@ -45,6 +48,7 @@ namespace GIS
         }
         public MapObject FindObject (GeoPoint gp, double delta)
         {
+            MaxCoords = new GeoPoint(FindMaxCoord().X, FindMaxCoord().Y);
             foreach (MapObject m in MapObjects)
                 if (m.IsCross(gp, delta))
                     return m;

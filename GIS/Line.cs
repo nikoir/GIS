@@ -58,7 +58,7 @@ namespace GIS
                 MinY = GeoPointBegin.Y;
             else
                 MinY = GeoPointEnd.Y;
-            if (result <= p.Width /2 + delta && gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+            if (result <= (p.Width / (2 * this.CurrentLayer.CurrentMap.MapScale)) + delta && gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
                 return true;
             else
                 return false;
