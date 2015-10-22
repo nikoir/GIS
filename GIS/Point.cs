@@ -32,7 +32,7 @@ namespace GIS
             double MaxY = FindMaxCoord().Y;
             double MinX = BeginPoint.X;
             double MinY = BeginPoint.Y - context.MeasureString(new string(Symbol, 1), Font).Height;
-            if (gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+            if (gp.X <= MaxX/this.CurrentLayer.CurrentMap.MapScale + delta && gp.X >= MinX / this.CurrentLayer.CurrentMap.MapScale - delta && gp.Y <= MaxY / this.CurrentLayer.CurrentMap.MapScale + delta && gp.Y >= MinY / this.CurrentLayer.CurrentMap.MapScale - delta)
                 return true;
             else
                 return false;
@@ -40,7 +40,7 @@ namespace GIS
 
         public override void Draw(Graphics g)
         {
-            System.Drawing.Font CurFont = new Font(Font.FontFamily, Font.Size * (float)CurrentLayer.CurrentMap.MapScale);
+            System.Drawing.Font CurFont = new Font(Font.FontFamily, Font.Size);
             SolidBrush InvertSB = new SolidBrush(Color.FromArgb(sb.Color.A, 0xFF - sb.Color.R, 0xFF - sb.Color.G, 0xFF - sb.Color.B));
             if (Check())
             {

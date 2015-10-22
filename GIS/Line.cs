@@ -73,8 +73,8 @@ namespace GIS
         {
             if (Check())
             {
-                System.Drawing.Pen CurPen = new Pen(p.Color, p.Width * (float)CurrentLayer.CurrentMap.MapScale);
-                Pen InvertPen = new Pen(Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B), p.Width * (float)CurrentLayer.CurrentMap.MapScale);
+                System.Drawing.Pen CurPen = new Pen(p.Color, p.Width);
+                Pen InvertPen = new Pen(Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B), p.Width);
                 System.Drawing.Point p1 = CurrentLayer.CurrentMap.MapToScreen(GeoPointBegin);
                 System.Drawing.Point p2 = CurrentLayer.CurrentMap.MapToScreen(GeoPointEnd);
                 if (Selected)

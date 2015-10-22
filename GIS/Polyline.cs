@@ -73,7 +73,7 @@ namespace GIS
                     MaxY = Nodes[i + 1].Y;
                     MinY = Nodes[i].Y;
                 }
-                if (result <= p.Width / 2 + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+                if (result <= (p.Width / 2 * this.CurrentLayer.CurrentMap.MapScale) + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
                     return true;
             }
             return false;
@@ -114,8 +114,8 @@ namespace GIS
             {
                 System.Drawing.Point p1;
                 System.Drawing.Point p2;
-                Pen InvertPen = new Pen(Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B), p.Width * (float)CurrentLayer.CurrentMap.MapScale);
-                System.Drawing.Pen CurPen = new Pen(p.Color, p.Width * (float)CurrentLayer.CurrentMap.MapScale);
+                Pen InvertPen = new Pen(Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B), p.Width);
+                System.Drawing.Pen CurPen = new Pen(p.Color, p.Width);
                 for (int i = 0; i < Nodes.Count - 1; i++)
                 {
                     p1 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);

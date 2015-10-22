@@ -23,3 +23,12 @@ C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.Form1.resourc
 C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.Map.resources
 C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.Properties.Resources.resources
 C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.csproj.GenerateResource.Cache
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.exe
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.pdb
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\bin\Debug\GIS.exe
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\bin\Debug\GIS.pdb
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.csprojResolveAssemblyReference.cache
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.Form1.resources
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.Map.resources
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.Properties.Resources.resources
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.csproj.GenerateResource.Cache
