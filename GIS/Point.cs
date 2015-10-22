@@ -16,11 +16,13 @@ namespace GIS
         {
             BeginPoint = new GeoPoint(X, Y);
             this.Symbol = Symbol;
+            Priority = 0;
         }
         public Point(GeoPoint BeginPoint, char Symbol)
         {
             this.BeginPoint = BeginPoint;
             this.Symbol = Symbol;
+            Priority = 0;
         }
 
         public override bool IsCross(GeoPoint gp, double delta)
@@ -36,15 +38,17 @@ namespace GIS
                 return false;
         }
 
-        public override void InvertColor()
-        {
-            sb.Color = Color.FromArgb(sb.Color.A, 0xFF - sb.Color.R, 0xFF - sb.Color.G, 0xFF - sb.Color.B);
-        }
-
         public override void Draw(Graphics g)
         {
+            System.Drawing.Font CurFont = new Font(Font.FontFamily, Font.Size * (float)CurrentLayer.CurrentMap.MapScale);
+            SolidBrush InvertSB = new SolidBrush(Color.FromArgb(sb.Color.A, 0xFF - sb.Color.R, 0xFF - sb.Color.G, 0xFF - sb.Color.B));
             if (Check())
-                g.DrawString(new string(Symbol, 1), Font, sb, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+            {
+                if (Selected)
+                    g.DrawString(new string(Symbol, 1), CurFont, InvertSB, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+                else
+                    g.DrawString(new string(Symbol, 1), CurFont, sb, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+            }
             else
                 return;
         }

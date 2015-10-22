@@ -9,41 +9,91 @@ namespace GIS
     class Map: UserControl
     {
         List<Layer> Layers = new List<Layer>();
-        public GeoPoint Center { get; set; }
-        public double MapScale { get; set; }
+        GeoPoint center;
+        public bool EnableSelection { get; set; }
+        public GeoPoint Center
+        {
+            get
+            {
+                return center;
+            }
+            set
+            {
+                center = value;
+                Invalidate();
+            }
+        }
+        double mapScale;
+        int CurX;
+        int CurY;
+        public double MapScale
+        {
+            get
+            {
+                return mapScale;
+            }
+            set
+            {
+                mapScale = value;
+                Invalidate();
+            }
+        }
         public Map(GeoPoint Center)
         {
             Layers = new List<Layer>();
             this.Center = Center;
             MapScale = 1;
             this.MouseClick += Map_MouseClick;
+            this.MouseMove += Map_MouseMove;
+            this.MouseDown += Map_MouseDown;
         }
 
         public Map()
         {
             MapScale = 1;
             this.MouseClick += Map_MouseClick;
+            this.MouseMove += Map_MouseMove;
+            this.MouseDown += Map_MouseDown;
         }
 
+        void Map_MouseDown(object sender, MouseEventArgs e)
+        {
+            CurX = e.X;
+            CurY = e.Y;
+        }
+        void Map_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Center.X += (CurX - e.X)/MapScale;
+                Center.Y -= (CurY - e.Y)/MapScale;
+                CurX = e.X;
+                CurY = e.Y;
+                this.Invalidate();
+            }
+        }
         void Map_MouseClick(object sender, MouseEventArgs e)
         {
             System.Drawing.Point p = new System.Drawing.Point(e.X, e.Y);
             MapObject SelectedObject;
-            if (Layers.Count != 0)
+            if (EnableSelection)
             {
-                Layer layer = null;
-                foreach (Layer l in Layers)
-                    if (l.Visible)
-                    {
-                        layer = l;
-                        break;
-                    }
-                SelectedObject = layer.FindObject(ScreenToMap(p), 2/MapScale);
-                if (SelectedObject != null)
-                    SelectedObject.Selected = !SelectedObject.Selected;
+                if (Layers.Count != 0)
+                {
+                    Layer layer = null;
+                    foreach (Layer l in Layers)
+                        if (l.Visible)
+                        {
+                            layer = l;
+                            break;
+                        }
+                    SelectedObject = layer.FindObject(ScreenToMap(p), 2 / MapScale);
+                    if (SelectedObject != null)
+                        SelectedObject.Selected = !SelectedObject.Selected;
+                }
+                else
+                    return;
             }
-            else
-                return;
         }
 
         public System.Drawing.Point MapToScreen(GeoPoint gp)

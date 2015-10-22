@@ -18,17 +18,14 @@ namespace GIS
         {
             this.GeoPointBegin = GeoPointBegin;
             this.GeoPointEnd = GeoPointEnd;
+            Priority = 2;
         }
 
         public Line (double XBegin, double YBegin, double XEnd, double YEnd)
         {
             GeoPointBegin = new GeoPoint(XBegin, YBegin);
             GeoPointEnd = new GeoPoint(XEnd, YEnd);
-        }
-
-        public override void InvertColor()
-        {
-            p.Color = Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B);
+            Priority = 2;
         }
 
         public override GeoPoint FindMaxCoord()
@@ -61,7 +58,7 @@ namespace GIS
                 MinY = GeoPointBegin.Y;
             else
                 MinY = GeoPointEnd.Y;
-            if (result <= p.Width/2 + delta && gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+            if (result <= p.Width /2 + delta && gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
                 return true;
             else
                 return false;
@@ -76,9 +73,14 @@ namespace GIS
         {
             if (Check())
             {
+                System.Drawing.Pen CurPen = new Pen(p.Color, p.Width * (float)CurrentLayer.CurrentMap.MapScale);
+                Pen InvertPen = new Pen(Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B), p.Width * (float)CurrentLayer.CurrentMap.MapScale);
                 System.Drawing.Point p1 = CurrentLayer.CurrentMap.MapToScreen(GeoPointBegin);
                 System.Drawing.Point p2 = CurrentLayer.CurrentMap.MapToScreen(GeoPointEnd);
-                g.DrawLine(p, p1, p2);
+                if (Selected)
+                    g.DrawLine(InvertPen, p1, p2);
+                else
+                    g.DrawLine(CurPen, p1, p2);
             }
             else
                 return;

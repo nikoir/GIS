@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace GIS
 {
@@ -21,41 +22,48 @@ namespace GIS
         {
             map1.MapScale = 1;
             map1.Center = new GeoPoint(0, 0);
-            Layer lr = new Layer();
-            Line ln = new Line(100, -200, 200, 400);
-            ln.p = new Pen(Color.Green, 5);
-            ln.Visibility = true;
-            Polyline pl = new Polyline();
-            pl.p = new Pen(Color.Black, 5);
-            pl.Visibility = true;
-            Polygon pn = new Polygon();
-            pn.sb = new SolidBrush(Color.Blue);
-            pn.Visibility = true;
-            Text txt = new GIS.Text("Томск", new Font("TimesNewRoman", 20), new GeoPoint(300, 300));
-            txt.Visibility = true;
-            txt.sb = new SolidBrush(Color.Turquoise);
-            Point p;
-            p = new Point(-200, -200, '*');
-            p.sb = new SolidBrush(Color.IndianRed);
-            p.Font = new System.Drawing.Font("MapInfo Symbols", 50);
-            p.Visibility = true;
-            pl.AddNode(-100, 200);
-            pl.AddNode(-200, 150);
-            pl.AddNode(-300, 200);
-            pl.AddNode(-400, 300);
-            pn.AddNode(100, 100);
-            pn.AddNode(-200, 30);
-            pn.AddNode(100, 0);
-            pn.AddNode(200, 200);
-            pn.AddNode(-300, 50);
-            lr.Visible = true;
-            lr.AddMapObject(p);
-            lr.AddMapObject(txt);
-            lr.AddMapObject(ln);
-            lr.AddMapObject(pl);
-            lr.AddMapObject(pn);
-            map1.AddLayer(lr);
-            this.Text = "MaxX: " + map1.FindMaxCoord().X.ToString() + "; MaxY: " + map1.FindMaxCoord().Y + ";";
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            map1.MapScale *= 1.5;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            map1.MapScale /= 1.5;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            map1.MapScale = 1;
+        }
+
+        private void map1_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            map1.EnableSelection = !map1.EnableSelection;
+        }
+
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.Filter = "MIF|*.mif";
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+                map1.AddLayer(Parser.Parse(OFD.FileName));
         }
     }
 }

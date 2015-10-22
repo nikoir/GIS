@@ -11,6 +11,7 @@ namespace GIS
         public bool Visibility { get; set; }
         public bool Salience { get; set; }
         public Layer CurrentLayer { get; set; }
+        public int Priority { get; protected set; }
         bool selected;
         public bool Selected
         {
@@ -21,8 +22,11 @@ namespace GIS
             set
             {
                 selected = value;
+                if (selected == true)
+                    foreach (MapObject m in CurrentLayer.MapObjects)
+                        if (m != this && m.Selected == true)
+                            m.Selected = false;
                 CurrentLayer.CurrentMap.Invalidate();
-                InvertColor();
             }
         }
 
@@ -35,6 +39,5 @@ namespace GIS
         abstract public void Draw(System.Drawing.Graphics g);
         abstract public GeoPoint FindMaxCoord();
         abstract public bool IsCross(GeoPoint gp, double delta);
-        abstract public void InvertColor();
     }
 }

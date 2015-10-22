@@ -20,6 +20,7 @@ namespace GIS
             this.text = text;
             this.Font = Font;
             this.BeginPoint = BeginPoint;
+            Priority = 1;
         }
 
         public override bool IsCross(GeoPoint gp, double delta)
@@ -37,16 +38,19 @@ namespace GIS
 
         public override void Draw(System.Drawing.Graphics g)
         {
+            System.Drawing.Font CurFont = new Font(Font.FontFamily, Font.Size * (float)CurrentLayer.CurrentMap.MapScale);
+            SolidBrush InvertSB = new SolidBrush(Color.FromArgb(sb.Color.A, 0xFF - sb.Color.R, 0xFF - sb.Color.G, 0xFF - sb.Color.B));
             if (Check())
-                g.DrawString(text, Font, sb, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+            {
+                if (Selected)
+                    g.DrawString(text, CurFont, InvertSB, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+                else
+                    g.DrawString(text, CurFont, sb, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+            }
             else
                 return;
         }
 
-        public override void InvertColor()
-        {
-            sb.Color = Color.FromArgb(sb.Color.A, 0xFF - sb.Color.R, 0xFF - sb.Color.G, 0xFF - sb.Color.B);
-        }
         public override GeoPoint FindMaxCoord()
         {
             Graphics context = Graphics.FromHwnd(CurrentLayer.CurrentMap.Handle);
@@ -60,6 +64,7 @@ namespace GIS
             this.text = text;
             this.Font = Font;
             this.BeginPoint = new GeoPoint(X, Y);
+            Priority = 1;
         }
 
     }

@@ -15,6 +15,7 @@ namespace GIS
         public Polyline()
         {
             Nodes = new List<GeoPoint>();
+            Priority = 3;
         }
         public void AddNode(double X, double Y)
         {
@@ -32,11 +33,6 @@ namespace GIS
                 Nodes.RemoveAt(index);
             else
                 throw new IndexOutOfRangeException();
-        }
-
-        public override void InvertColor()
-        {
-            p.Color = Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B);
         }
 
         public GeoPoint GetNode(int index)
@@ -77,7 +73,7 @@ namespace GIS
                     MaxY = Nodes[i + 1].Y;
                     MinY = Nodes[i].Y;
                 }
-                if (result <= p.Width/2 + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+                if (result <= p.Width / 2 + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
                     return true;
             }
             return false;
@@ -118,11 +114,16 @@ namespace GIS
             {
                 System.Drawing.Point p1;
                 System.Drawing.Point p2;
+                Pen InvertPen = new Pen(Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B), p.Width * (float)CurrentLayer.CurrentMap.MapScale);
+                System.Drawing.Pen CurPen = new Pen(p.Color, p.Width * (float)CurrentLayer.CurrentMap.MapScale);
                 for (int i = 0; i < Nodes.Count - 1; i++)
                 {
                     p1 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
                     p2 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i + 1]);
-                    g.DrawLine(p, p1, p2);
+                    if (Selected)
+                        g.DrawLine(InvertPen, p1, p2);
+                    else
+                        g.DrawLine(CurPen, p1, p2);
                 }
             }
             else

@@ -10,7 +10,7 @@ namespace GIS
 {
     class Polygon: Polyline
     {
-        public SolidBrush sb { get; set; }
+        public Brush br { get; set; }
         const double Epsilon = 1E-9;
         public override double Length()
         {
@@ -20,14 +20,23 @@ namespace GIS
         {
             if (Nodes.Count != 0 && Check())
             {
+                //SolidBrush InvertSB = new SolidBrush(Color.FromArgb(br.Color.A, 0xFF - br.Color.R, 0xFF - br.Color.G, 0xFF - br.Color.B));
+                SolidBrush InvertSB = new SolidBrush(Color.Yellow);
                 System.Drawing.Point[] PointArray = new System.Drawing.Point[Nodes.Count];
                 for (int i = 0; i < Nodes.Count; i++)
                     PointArray[i] = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
-                g.FillPolygon(sb, PointArray);
+                if (Selected)
+                    g.FillPolygon(InvertSB, PointArray);
+                else
+                    g.FillPolygon(br, PointArray);
 
             }
             else
                 return;
+        }
+        public Polygon()
+        {
+            Priority = 4;
         }
         public override bool IsCross(GeoPoint gp, double delta) //Даже не пытайтесь в этом разобраться...
         {
@@ -134,10 +143,6 @@ namespace GIS
             if (count % 2 != 0)
                 return true;
             return false;
-        }
-        public override void InvertColor()
-        {
-            sb.Color = Color.FromArgb(sb.Color.A, 0xFF - sb.Color.R, 0xFF - sb.Color.G, 0xFF - sb.Color.B);
         }
     }
 }
