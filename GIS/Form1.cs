@@ -65,5 +65,14 @@ namespace GIS
             if (OFD.ShowDialog() == DialogResult.OK)
                 map1.AddLayer(Parser.Parse(OFD.FileName));
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            foreach (MapObject m in map1.Layers[0].MapObjects)
+            {
+                if (m.IsCross(new GeoPoint(0.45395151003486983, 0.39524404193294904), 2/map1.MapScale))
+                    MessageBox.Show("It's a fucking bug!");
+            }
+        }
     }
 }

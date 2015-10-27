@@ -42,71 +42,75 @@ namespace GIS
         {
             int count = 0; //счетчик для подсчета количества пересечений луча
             //Уравнение первой прямой
-            double Straight1X0 = gp.X;
-            double Straight1X1 = CurrentLayer.MaxCoords.X;
-            double Straight1Y0 = gp.Y;
-            double Straight1Y1 = CurrentLayer.MaxCoords.Y;
-            double A1 = Straight1Y1-Straight1Y0;
-            double B1 = -(Straight1X1 - Straight1X0);
-            double C1 = Straight1Y0*(Straight1X1 - Straight1X0) - Straight1X0*(Straight1Y1 - Straight1Y0);
+            double X0_1 = gp.X;
+            double X1_1 = CurrentLayer.MaxCoords.X;
+            double Y0_1 = gp.Y;
+            double Y1_1 = CurrentLayer.MaxCoords.Y;
+            double A1 = Y1_1 - Y0_1;
+            double B1 = X0_1 - X1_1;
+            double C1 = Y0_1*(X1_1 - X0_1) + X0_1*(Y0_1 - Y1_1);
             //Точка пересечения отрезков
             double IntersectX;
             double IntersectY;
             //Границы для поверки принадлежности прямой отрезку
-            double Straight1MinX;
-            double Straight1MaxX;
-            double Straight1MinY;
-            double Straight1MaxY;
-            double Straight2MinX;
-            double Straight2MaxX;
-            double Straight2MinY;
-            double Straight2MaxY;
 
-            double Straight2X0;
-            double Straight2X1;
-            double Straight2Y0;
-            double Straight2Y1;
+            double MinX_1;
+            double MaxX_1;
+            double MinY_1;
+            double MaxY_1;
+
+            double MinX_2;
+            double MaxX_2;
+            double MinY_2;
+            double MaxY_2;
+
+            double X0_2;
+            double X1_2;
+            double Y0_2;
+            double Y1_2;
             double A2;
             double B2;
             double C2;
 
-            if (Straight1X0 > Straight1X1)
+            if (X0_1 > X1_1)
             {
-                Straight1MaxX = Straight1X0;
-                Straight1MinX = Straight1X1;
+                MaxX_1 = X0_1;
+                MinX_1 = X1_1;
             }
             else
             {
-                Straight1MaxX = Straight1X1;
-                Straight1MinX = Straight1X0;
+                MaxX_1 = X1_1;
+                MinX_1 = X0_1;
             }
-            if (Straight1Y0 > Straight1Y1)
+            if (Y0_1 > Y1_1)
             {
-                Straight1MaxY = Straight1Y0;
-                Straight1MinY = Straight1Y1;
+                MaxY_1 = Y0_1;
+                MinY_1 = Y1_1;
             }
             else
             {
-                Straight1MaxY = Straight1Y1;
-                Straight1MinY = Straight1Y0;
+                MaxY_1 = Y1_1;
+                MinY_1 = Y0_1;
             }
+
             //Уравнение второй прямой
             for (int i = 0; i < Nodes.Count; i++)
             {
-                Straight2X0 = Nodes[i].X;
+                X0_2 = Nodes[i].X;
+                Y0_2 = Nodes[i].Y;
                 if (i != Nodes.Count - 1)
-                    Straight2X1 = Nodes[i + 1].X;
+                {
+                    X1_2 = Nodes[i + 1].X;
+                    Y1_2 = Nodes[i + 1].Y;
+                }
                 else
-                    Straight2X1 = Nodes[0].X;
-                Straight2Y0 = Nodes[i].Y;
-                if (i != Nodes.Count - 1)
-                    Straight2Y1 = Nodes[i + 1].Y;
-                else
-                    Straight2Y1 = Nodes[0].Y;
-
-                A2 = Straight2Y1 - Straight2Y0;
-                B2 = -(Straight2X1 - Straight2X0);
-                C2 = Straight2Y0 * (Straight2X1 - Straight2X0) - Straight2X0 * (Straight2Y1 - Straight2Y0);
+                {
+                    X1_2 = Nodes[0].X;
+                    Y1_2 = Nodes[0].Y;
+                }
+                A2 = Y1_2 - Y0_2;
+                B2 = X0_2 - X1_2;
+                C2 = Y0_2 * (X1_2 - X0_2) + X0_2 * (Y0_2 - Y1_2);
 
                 if (Math.Abs(A1 * B2 - A2 * B1) <= Epsilon) //Если прямые параллельны
                     continue;
@@ -115,28 +119,28 @@ namespace GIS
                     //Находим точку пересечения двух отрезков
                     IntersectX = -(C1 * B2 - C2 * B1) / (A1 * B2 - A2 * B1);
                     IntersectY = -(A1 * C2 - A2 * C1) / (A1 * B2 - A2 * B1);
-                    if (Straight2X0 > Straight2X1)
+                    if (X0_2 > X1_2)
                     {
-                        Straight2MaxX = Straight2X0;
-                        Straight2MinX = Straight2X1;
+                        MaxX_2 = X0_2;
+                        MinX_2 = X1_2;
                     }
                     else
                     {
-                        Straight2MaxX = Straight2X1;
-                        Straight2MinX = Straight2X0;
+                        MaxX_2 = X1_2;
+                        MinX_2 = X0_2;
                     }
-                    if (Straight2Y0 > Straight2Y1)
+                    if (Y0_2 > Y1_2)
                     {
-                        Straight2MaxY = Straight2Y0;
-                        Straight2MinY = Straight2Y1;
+                        MaxY_2 = Y0_2;
+                        MinY_2 = Y1_2;
                     }
                     else
                     {
-                        Straight2MaxY = Straight2Y1;
-                        Straight2MinY = Straight2Y0;
+                        MaxY_2 = Y1_2;
+                        MinY_2 = Y0_2;
                     }
-                    //Сатанинское условие...
-                    if (IntersectX >= Straight1MinX && IntersectX >= Straight2MinX && IntersectX <= Straight1MaxX && IntersectX <= Straight2MaxX && IntersectY >= Straight1MinY && IntersectY >= Straight2MinY && IntersectY <= Straight1MaxY && IntersectY <= Straight2MaxY)
+                    if ((IntersectX >= MinX_2 - Epsilon && IntersectX <= MaxX_2 + Epsilon && IntersectY >= MinY_2 - Epsilon && IntersectY <= MaxY_2 + Epsilon) 
+                        && (IntersectX >= MinX_1 - Epsilon && IntersectX <= MaxX_1 + Epsilon && IntersectY >= MinY_1 - Epsilon && IntersectY <= MaxY_1 + Epsilon))
                         count++;
                 }
             }

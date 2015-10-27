@@ -8,7 +8,7 @@ namespace GIS
 {
     class Map: UserControl
     {
-        List<Layer> Layers = new List<Layer>();
+        public List<Layer> Layers = new List<Layer>();
         GeoPoint center;
         public bool EnableSelection { get; set; }
 
