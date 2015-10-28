@@ -30,16 +30,6 @@ namespace GIS
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            map1.MapScale *= 1.5;
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            map1.MapScale /= 1.5;
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             map1.MapScale = 1;
@@ -59,19 +49,21 @@ namespace GIS
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog OFD = new OpenFileDialog();
-
+            Form2 form;
+            Layer lr;
             OFD.Filter = "MIF|*.mif";
 
             if (OFD.ShowDialog() == DialogResult.OK)
-                map1.AddLayer(Parser.Parse(OFD.FileName));
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            foreach (MapObject m in map1.Layers[0].MapObjects)
             {
-                if (m.IsCross(new GeoPoint(0.45395151003486983, 0.39524404193294904), 2/map1.MapScale))
-                    MessageBox.Show("It's a fucking bug!");
+                form = new Form2();
+                form.ShowDialog();
+                if (form.DialogResult == System.Windows.Forms.DialogResult.OK)
+                {
+                    lr = Parser.Parse(OFD.FileName);
+                    lr.Name = form.Name;
+                    map1.AddLayer(Parser.Parse(OFD.FileName));
+                    checkedListBox1.Items.Add(lr.Name);
+                }
             }
         }
     }

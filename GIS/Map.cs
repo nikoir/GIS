@@ -47,6 +47,16 @@ namespace GIS
             this.MouseClick += Map_MouseClick;
             this.MouseMove += Map_MouseMove;
             this.MouseDown += Map_MouseDown;
+            this.MouseWheel += Map_MouseWheel;
+        }
+
+        void Map_MouseWheel(object sender, MouseEventArgs e)
+        {
+            Center = ScreenToMap(new System.Drawing.Point(e.X, e.Y));
+            if (e.Delta > 0)
+                MapScale *= 2;
+            else
+                MapScale /= 2;
         }
 
         public Map()
@@ -55,6 +65,7 @@ namespace GIS
             this.MouseClick += Map_MouseClick;
             this.MouseMove += Map_MouseMove;
             this.MouseDown += Map_MouseDown;
+            this.MouseWheel += Map_MouseWheel;
         }
 
         void Map_MouseDown(object sender, MouseEventArgs e)
