@@ -50,6 +50,13 @@ namespace GIS
             this.MouseWheel += Map_MouseWheel;
         }
 
+        bool LayerExists(string LayerName)
+        {
+            foreach (Layer l in Layers)
+                if (l.Name == LayerName)
+                    return true;
+            return false;
+        }
         void Map_MouseWheel(object sender, MouseEventArgs e)
         {
             Center = ScreenToMap(new System.Drawing.Point(e.X, e.Y));
@@ -151,9 +158,21 @@ namespace GIS
         }
         public void AddLayer(Layer layer)
         {
-            layer.CurrentMap = this;
-            layer.Order = Layers.Count;
-            Layers.Add(layer);
+            if (!LayerExists(layer.Name))
+            {
+                layer.CurrentMap = this;
+                layer.Order = Layers.Count;
+                Layers.Add(layer);
+            }
+            else
+                throw new Exception("Layer with this name already exists!");
+        }
+        public Layer FindLayer (string LayerName)
+        {
+            foreach (Layer l in Layers)
+                if (l.Name == LayerName)
+                    return l;
+            return null;
         }
     }
 }

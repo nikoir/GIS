@@ -33,3 +33,4 @@ C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\De
 C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.Properties.Resources.resources
 C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.csproj.GenerateResource.Cache
 C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.Form2.resources
+C:\Users\Николай\Documents\Visual Studio 2015\Projects\GIS\GIS\obj\x86\Debug\GIS.Form2.resources

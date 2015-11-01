@@ -61,10 +61,23 @@ namespace GIS
                 {
                     lr = Parser.Parse(OFD.FileName);
                     lr.Name = form.Name;
-                    map1.AddLayer(Parser.Parse(OFD.FileName));
-                    checkedListBox1.Items.Add(lr.Name);
+                    try
+                    {
+                        map1.AddLayer(Parser.Parse(OFD.FileName));
+                        checkedListBox1.Items.Add(lr.Name);
+                        //checkedListBox1.SetItemChecked()
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
             }
+        }
+
+        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+
         }
     }
 }
