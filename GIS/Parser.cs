@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace GIS
 {
-    class Parser
+    public class Parser
     {
         private static System.Drawing.Color IntToColor(int argb)
         {
@@ -20,7 +20,6 @@ namespace GIS
         public static Layer Parse(string FileName)
         {
             Layer lr = new Layer();
-            lr.Visible = true;
             StreamReader sr = new StreamReader((System.IO.Stream)File.OpenRead(FileName), System.Text.Encoding.Default);
             string str = null;
             str = sr.ReadLine();
@@ -40,13 +39,13 @@ namespace GIS
                         string[] Symbol = str.Split(new char[] { ' ', ',', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
                         p = new Point(Convert.ToDouble(Coords[1]), Convert.ToDouble(Coords[2]), Convert.ToChar(Convert.ToInt32(Symbol[1]) + 1));
                         Color color = IntToColor(Convert.ToInt32(Symbol[2]));
-                        p.sb = new SolidBrush(color);
+                        p.SolidBrush = new SolidBrush(color);
                         p.Font = new Font("MapInfo Symbols", Convert.ToInt32(Symbol[3]));
                     }
                     else
                     {
                         p = new Point(Convert.ToDouble(Coords[1]), Convert.ToDouble(Coords[2]), '*');
-                        p.sb = new SolidBrush(Color.Black);
+                        p.SolidBrush = new SolidBrush(Color.Black);
                         p.Font = new Font("MapInfo Symbols", 18);
                     }
                     p.Visibility = true;
@@ -63,31 +62,29 @@ namespace GIS
                             string[] Pen = str.Split(new char[] { ' ', ',', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
                             int Width = Convert.ToInt32(Pen[1]);
                             l.Visibility = true;
-                            System.Drawing.Drawing2D.DashStyle style = System.Drawing.Drawing2D.DashStyle.Custom;
+                            Color color = IntToColor(Convert.ToInt32(Pen[3]));
+                            l.p = new Pen(color, Width);
                             switch (Pen[2])
                             {
                                 case "1":
-                                    //l.Visibility = false;
+                                    l.p.Color = Color.FromArgb(0);
                                     break;
                                 case "2":
-                                    style = System.Drawing.Drawing2D.DashStyle.Solid;
+                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
                                     break;
                                 case "3":
-                                    style = System.Drawing.Drawing2D.DashStyle.Dot;
+                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                                     break;
                                 case "4":
-                                    style = System.Drawing.Drawing2D.DashStyle.Dot;
+                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                                     break;
                                 case "5":
-                                    style = System.Drawing.Drawing2D.DashStyle.Dash;
+                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                                     break;
                                 default:
-                                    style = System.Drawing.Drawing2D.DashStyle.DashDot;
+                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
                                     break;
                             }
-                            Color color = IntToColor(Convert.ToInt32(Pen[3]));
-                            l.p = new Pen(color, Width);
-                            l.p.DashStyle = style;
                         }
                         else
                         {
@@ -101,7 +98,6 @@ namespace GIS
                         {
                             string[] Pline = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                             string[] Coords;
-                            bool Visibility;
                             List<Polyline> list = new List<Polyline>();
                             Polyline pl = null;
                             Pen p = null;
@@ -125,6 +121,7 @@ namespace GIS
                                 }
                                 counter++;
                                 pl = new Polyline();
+                                pl.Visibility = true;
                                 for (int i = 0; i < numpts; i++)
                                 {
                                     str = sr.ReadLine();
@@ -138,42 +135,37 @@ namespace GIS
                             {
                                 string[] Pen = str.Split(new char[] { ' ', ',', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
                                 int Width = Convert.ToInt32(Pen[1]);
-                                Visibility = true;
-                                System.Drawing.Drawing2D.DashStyle style = System.Drawing.Drawing2D.DashStyle.Custom;
                                 Color color = IntToColor(Convert.ToInt32(Pen[3]));
+                                p = new Pen(color, Width);
                                 switch (Pen[2])
                                 {
                                     case "1":
-                                        //Visibility = false;
+                                        p.Color = Color.FromArgb(0);
                                         break;
                                     case "2":
-                                        style = System.Drawing.Drawing2D.DashStyle.Solid;
+                                        p.DashStyle= System.Drawing.Drawing2D.DashStyle.Solid;
                                         break;
                                     case "3":
-                                        style = System.Drawing.Drawing2D.DashStyle.Dot;
+                                        p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                                         break;
                                     case "4":
-                                        style = System.Drawing.Drawing2D.DashStyle.Dot;
+                                        p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                                         break;
                                     case "5":
-                                        style = System.Drawing.Drawing2D.DashStyle.Dash;
+                                        p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                                         break;
                                     default:
-                                        style = System.Drawing.Drawing2D.DashStyle.DashDot;
+                                        p.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
                                         break;
                                 }
-                                p = new Pen(color, Width);
-                                p.DashStyle = style;
                             }
                             else
                             {
-                                Visibility = true;
                                 p = new Pen(Color.Black, 5);
                             }
                             foreach (Polyline polyline in list)
                             {
                                 polyline.p = p;
-                                polyline.Visibility = Visibility;
                                 lr.AddMapObject(polyline);
                             }
                         }
@@ -185,9 +177,9 @@ namespace GIS
                                 string[] Region = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                                 string[] Coords;
                                 string[] Brush;
-                                bool Visibility = true;
                                 Color ForegroundColor;
                                 Color BackgroundColor;
+                                Pen p = null;
                                 List<Polygon> list = new List<Polygon>();
                                 int numsections = Convert.ToInt32(Region[1]); //Количество секций мультиполигона
                                 int counter = 0;
@@ -199,6 +191,7 @@ namespace GIS
                                     ar = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                                     numpts = Convert.ToInt32(ar[0]);
                                     pg = new Polygon();
+                                    pg.Visibility = true;
                                     for (int i = 0; i < numpts; i++)
                                     {
                                         str = sr.ReadLine();
@@ -211,7 +204,36 @@ namespace GIS
                                 }
                                 str = sr.ReadLine();
                                 if (str.Contains("Pen")) //Дописать обвобку для полигона
+                                {
+                                    string[] Pen = str.Split(new char[] { ' ', ',', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
+                                    int Width = Convert.ToInt32(Pen[1]);
+                                    Color color = IntToColor(Convert.ToInt32(Pen[3]));
+                                    p = new Pen(color, Width);
+                                    switch (Pen[2])
+                                    {
+                                        case "1":
+                                            p.Color = Color.FromArgb(0);
+                                            break;
+                                        case "2":
+                                            p.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+                                            break;
+                                        case "3":
+                                            p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                                            break;
+                                        case "4":
+                                            p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                                            break;
+                                        case "5":
+                                            p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                                            break;
+                                        default:
+                                            p.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
+                                            break;
+                                    }
                                     str = sr.ReadLine();
+                                }
+                                else
+                                    p = new Pen(Color.Black, 5);
                                 if (str.Contains("Brush"))
                                 {
                                     Brush = str.Split(new char[] { ' ', '(', ')', ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -223,8 +245,7 @@ namespace GIS
                                     switch (Brush[1])
                                     {
                                         case "1":
-                                            //Visibility = false;
-                                            br = new System.Drawing.SolidBrush(ForegroundColor);
+                                            br = new System.Drawing.SolidBrush(Color.FromArgb(0));
                                             break;
                                         case "2":
                                             br = new System.Drawing.SolidBrush(ForegroundColor);
@@ -247,11 +268,11 @@ namespace GIS
                                     }
                                 }
                                 else
-                                    br = new System.Drawing.SolidBrush(Color.DarkGray);
+                                    br = new System.Drawing.SolidBrush(Color.Green);
                                 foreach (Polygon polygon in list)
                                 {
                                     polygon.br = br;
-                                    polygon.Visibility = Visibility;
+                                    polygon.p = p;
                                     lr.AddMapObject(polygon);
                                 }
 
@@ -302,7 +323,7 @@ namespace GIS
                                         sb = new SolidBrush(Color.Black);
                                     }
                                     txt = new Text(text, font, Convert.ToDouble(Coords[0]), Convert.ToDouble(Coords[1]));
-                                    txt.sb = sb;
+                                    txt.SolidBrush = sb;
                                     txt.Visibility = true;
                                     lr.AddMapObject(txt);
                                 }

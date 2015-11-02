@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace GIS
 {
-    class Line: MapObject
+    public class Line: MapObject
     {
         public GeoPoint GeoPointBegin { get; private set; }
         public GeoPoint GeoPointEnd { get; private set; }

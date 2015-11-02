@@ -7,12 +7,38 @@ using System.Windows.Forms;
 
 namespace GIS
 {
-    class Point: MapObject
+    public class Point: MapObject
     {
-        public Font Font { get; set; }
+        Font font;
+        SolidBrush solidBrush;
+        public Font Font
+        {
+            get
+            {
+                return font;
+            }
+            set
+            {
+                font = value;
+                if (Check())
+                    CurrentLayer.CurrentMap.Invalidate();
+            }
+        }
         public char Symbol { get; set; }
         public GeoPoint BeginPoint { get; private set; }
-        public SolidBrush sb { get; set; }
+        public SolidBrush SolidBrush
+        {
+            get
+            {
+                return solidBrush;
+            }
+            set
+            {
+                solidBrush = value;
+                if (Check())
+                    CurrentLayer.CurrentMap.Invalidate();
+            }
+        }
         public Point (double X, double Y, char Symbol)
         {
             BeginPoint = new GeoPoint(X, Y);
@@ -28,26 +54,29 @@ namespace GIS
 
         public override bool IsCross(GeoPoint gp, double delta)
         {
-            double MaxX = FindMaxCoord().X;
-            double MaxY = FindMaxCoord().Y;
-            double MinX = BeginPoint.X;
-            double MinY = BeginPoint.Y - (TextRenderer.MeasureText(new string(Symbol, 1), Font).Height / this.CurrentLayer.CurrentMap.MapScale);
-            if (gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
-                return true;
-            else
-                return false;
+            if (Check())
+            {
+                double MaxX = FindMaxCoord().X;
+                double MaxY = FindMaxCoord().Y;
+                double MinX = BeginPoint.X;
+                double MinY = BeginPoint.Y - TextRenderer.MeasureText(new String(Symbol, 1), Font).Height / (float)CurrentLayer.CurrentMap.MapScale;
+                if (gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+                    return true;
+                else
+                    return false;
+            }
+            return false;
         }
 
         public override void Draw(Graphics g)
         {
-            System.Drawing.Font CurFont = new Font(Font.FontFamily, Font.Size);
-            SolidBrush InvertSB = new SolidBrush(Color.FromArgb(sb.Color.A, 0xFF - sb.Color.R, 0xFF - sb.Color.G, 0xFF - sb.Color.B));
+            SolidBrush InvertSB = new SolidBrush(Color.FromArgb(SolidBrush.Color.A, 0xFF - SolidBrush.Color.R, 0xFF - SolidBrush.Color.G, 0xFF - SolidBrush.Color.B));
             if (Check())
             {
                 if (Selected)
-                    g.DrawString(new string(Symbol, 1), CurFont, InvertSB, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+                    g.DrawString(new string(Symbol, 1), Font, InvertSB, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
                 else
-                    g.DrawString(new string(Symbol, 1), CurFont, sb, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+                    g.DrawString(new string(Symbol, 1), Font, SolidBrush, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
             }
             else
                 return;
@@ -59,7 +88,7 @@ namespace GIS
             size = TextRenderer.MeasureText(new string(Symbol, 1), Font);
             size.Height /= (float)CurrentLayer.CurrentMap.MapScale;
             size.Width /= (float)CurrentLayer.CurrentMap.MapScale;
-            return new GeoPoint(BeginPoint.X + size.Width, BeginPoint.Y + size.Height);
+            return new GeoPoint(BeginPoint.X + size.Width, BeginPoint.Y);
         }
     }
 }

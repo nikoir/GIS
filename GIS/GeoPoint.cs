@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GIS
 {
-    class GeoPoint
+    public class GeoPoint
     {
         public double X { get; set; }
         public double Y{ get; set; }

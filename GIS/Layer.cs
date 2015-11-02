@@ -5,11 +5,24 @@ using System.Text;
 
 namespace GIS
 {
-    class Layer
+    public class Layer
     {
         public List<MapObject> MapObjects { get; private set; }
         public string Name { get; set; }
-        public bool Visible { get; set; }
+        private bool visible;
+        public bool Visible
+        {
+            get
+            {
+                return visible;
+            }
+            set
+            {
+                visible = value;
+                if (CurrentMap != null)
+                    CurrentMap.Invalidate();
+            }
+        }
         public Map CurrentMap { get; set; }
         public GeoPoint MaxCoords { get; private set; }
         public int Order { get; set; } //Порядковый номер слоя

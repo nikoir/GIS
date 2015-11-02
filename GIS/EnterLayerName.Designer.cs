@@ -1,6 +1,6 @@
 ﻿namespace GIS
 {
-    partial class Form2
+    partial class EnterLayerName
     {
         /// <summary>
         /// Required designer variable.
@@ -68,7 +68,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
-            this.Name = "Form2";
+            this.LayerName = "Form2";
             this.ResumeLayout(false);
             this.PerformLayout();
 

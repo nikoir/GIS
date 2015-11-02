@@ -11,9 +11,9 @@ using System.IO;
 
 namespace GIS
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -49,23 +49,23 @@ namespace GIS
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog OFD = new OpenFileDialog();
-            Form2 form;
+            EnterLayerName form;
             Layer lr;
             OFD.Filter = "MIF|*.mif";
 
             if (OFD.ShowDialog() == DialogResult.OK)
             {
-                form = new Form2();
+                form = new EnterLayerName();
                 form.ShowDialog();
                 if (form.DialogResult == System.Windows.Forms.DialogResult.OK)
                 {
                     lr = Parser.Parse(OFD.FileName);
-                    lr.Name = form.Name;
+                    lr.Name = form.LayerName;
                     try
                     {
-                        map1.AddLayer(Parser.Parse(OFD.FileName));
+                        map1.AddLayer(lr);
                         checkedListBox1.Items.Add(lr.Name);
-                        //checkedListBox1.SetItemChecked()
+                        checkedListBox1.SetItemChecked(lr.Order, true);
                     }
                     catch (Exception ex)
                     {
@@ -77,7 +77,20 @@ namespace GIS
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            switch (e.NewValue)
+            {
+                case CheckState.Checked:
+                    map1.FindLayer(e.Index).Visible = true;
+                    break;
+                case CheckState.Unchecked:
+                    map1.FindLayer(e.Index).Visible = false;
+                    break;
+            }
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            map1.EditObjectProperty();
         }
     }
 }

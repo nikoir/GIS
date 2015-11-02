@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace GIS
 {
-    abstract class MapObject
+    public abstract class MapObject
     {
         public bool Visibility { get; set; }
         public bool Salience { get; set; }

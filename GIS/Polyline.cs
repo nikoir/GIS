@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace GIS
 {
-    class Polyline: MapObject
+    public class Polyline: MapObject
     {
         protected List<GeoPoint> Nodes { get; private set; }
         public Pen p { get; set; }

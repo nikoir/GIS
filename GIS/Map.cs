@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace GIS
 {
-    class Map: UserControl
+    public class Map: UserControl
     {
         public List<Layer> Layers = new List<Layer>();
         GeoPoint center;
@@ -115,6 +115,57 @@ namespace GIS
             }
         }
 
+        public void EditObjectProperty()
+        {
+            Form EditProperties;
+            System.Drawing.Font OldFont;
+            System.Drawing.Color OldColor;
+            string OldTitle;
+            foreach (Layer lr in Layers)
+                if (lr.Visible)
+                    foreach (MapObject mo in lr.MapObjects)
+                        if (mo.Selected)
+                        {
+                            mo.Selected = false;
+                            if (mo is Point)
+                            {
+                                Point Point = mo as Point;
+                                OldFont = Point.Font;
+                                OldColor = Point.SolidBrush.Color;
+                                EditProperties = new PointProperties(ref Point);
+                                if (EditProperties.ShowDialog() != DialogResult.OK)
+                                {
+                                    Point.Font = OldFont;
+                                    Point.SolidBrush.Color = OldColor;
+                                }
+                            }
+                            else
+                            {
+                                if (mo is Text)
+                                {
+                                    Text Text = mo as Text;
+                                    EditProperties = new TextProperties(ref Text);
+                                    OldFont = Text.Font;
+                                    OldColor = Text.SolidBrush.Color;
+                                    OldTitle = Text.Title;
+                                    if (EditProperties.ShowDialog() != DialogResult.OK)
+                                    {
+                                        Text.Font = OldFont;
+                                        Text.SolidBrush = new System.Drawing.SolidBrush(OldColor);
+                                        Text.Title = OldTitle;
+                                    }
+                                }
+                                else
+                                    if (mo is Polyline)
+                                    {
+                                        EditProperties = new LineProperties();
+                                        EditProperties.ShowDialog();
+                                    }
+                            }
+                        }
+            Invalidate();
+        }
+
         public System.Drawing.Point MapToScreen(GeoPoint gp)
         {
             System.Drawing.Point point = new System.Drawing.Point();
@@ -173,6 +224,10 @@ namespace GIS
                 if (l.Name == LayerName)
                     return l;
             return null;
+        }
+        public Layer FindLayer (int index)
+        {
+            return Layers[index];
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace GIS
 {
-    class Polygon: Polyline
+    public class Polygon: Polyline
     {
         public Brush br { get; set; }
         const double Epsilon = 1E-9;
@@ -20,11 +20,11 @@ namespace GIS
         {
             if (Nodes.Count != 0 && Check())
             {
-                //SolidBrush InvertSB = new SolidBrush(Color.FromArgb(br.Color.A, 0xFF - br.Color.R, 0xFF - br.Color.G, 0xFF - br.Color.B));
-                SolidBrush InvertSB = new SolidBrush(Color.Yellow);
+                SolidBrush InvertSB = new SolidBrush(Color.Red);
                 System.Drawing.Point[] PointArray = new System.Drawing.Point[Nodes.Count];
                 for (int i = 0; i < Nodes.Count; i++)
                     PointArray[i] = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
+                g.DrawPolygon(p, PointArray);
                 if (Selected)
                     g.FillPolygon(InvertSB, PointArray);
                 else

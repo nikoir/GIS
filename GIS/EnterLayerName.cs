@@ -9,17 +9,17 @@ using System.Windows.Forms;
 
 namespace GIS
 {
-    public partial class Form2 : Form
+    public partial class EnterLayerName : Form
     {
-        public string Name { get; set; }
-        public Form2()
+        public string LayerName { get; set; }
+        public EnterLayerName()
         {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Name = textBox1.Text;
+            LayerName = textBox1.Text;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
