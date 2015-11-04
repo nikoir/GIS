@@ -37,3 +37,4 @@ C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.PointProperti
 C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.EnterLayerName.resources
 C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.TextProperties.resources
 C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.LineProperties.resources
+C:\Users\Николай\Documents\GitHub\GIS\GIS\obj\x86\Debug\GIS.PolygonProperties.resources

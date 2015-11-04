@@ -10,8 +10,21 @@ namespace GIS
 {
     public class Polyline: MapObject
     {
+        Pen pen;
         protected List<GeoPoint> Nodes { get; private set; }
-        public Pen p { get; set; }
+        public Pen Pen
+        {
+            get
+            {
+                return pen;
+            }
+            set
+            {
+                pen = value;
+                if (Check())
+                    CurrentLayer.CurrentMap.Invalidate();
+            }
+        }
         public Polyline()
         {
             Nodes = new List<GeoPoint>();
@@ -73,7 +86,7 @@ namespace GIS
                     MaxY = Nodes[i + 1].Y;
                     MinY = Nodes[i].Y;
                 }
-                if (result <= (p.Width / (2 * this.CurrentLayer.CurrentMap.MapScale)) + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+                if (result <= (Pen.Width / (2 * this.CurrentLayer.CurrentMap.MapScale)) + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
                     return true;
             }
             return false;
@@ -114,8 +127,8 @@ namespace GIS
             {
                 System.Drawing.Point p1;
                 System.Drawing.Point p2;
-                Pen InvertPen = new Pen(Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B), p.Width);
-                System.Drawing.Pen CurPen = new Pen(p.Color, p.Width);
+                Pen InvertPen = new Pen(Color.FromArgb(Pen.Color.A, 0xFF - Pen.Color.R, 0xFF - Pen.Color.G, 0xFF - Pen.Color.B), Pen.Width);
+                InvertPen.DashStyle = Pen.DashStyle;
                 for (int i = 0; i < Nodes.Count - 1; i++)
                 {
                     p1 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
@@ -123,7 +136,7 @@ namespace GIS
                     if (Selected)
                         g.DrawLine(InvertPen, p1, p2);
                     else
-                        g.DrawLine(CurPen, p1, p2);
+                        g.DrawLine(Pen, p1, p2);
                 }
             }
             else

@@ -94,7 +94,7 @@ namespace GIS
         void Map_MouseClick(object sender, MouseEventArgs e)
         {
             System.Drawing.Point p = new System.Drawing.Point(e.X, e.Y);
-            MapObject SelectedObject;
+            MapObject SelectedObject = null;
             if (EnableSelection)
             {
                 if (Layers.Count != 0)
@@ -106,7 +106,8 @@ namespace GIS
                             layer = l;
                             break;
                         }
-                    SelectedObject = layer.FindObject(ScreenToMap(p), 2 / MapScale);
+                    if (layer != null)
+                        SelectedObject = layer.FindObject(ScreenToMap(p), 2 / MapScale);
                     if (SelectedObject != null)
                         SelectedObject.Selected = !SelectedObject.Selected;
                 }
@@ -120,6 +121,8 @@ namespace GIS
             Form EditProperties;
             System.Drawing.Font OldFont;
             System.Drawing.Color OldColor;
+            System.Drawing.Pen OldPen;
+            System.Drawing.Brush OldBrush;
             string OldTitle;
             foreach (Layer lr in Layers)
                 if (lr.Visible)
@@ -156,11 +159,36 @@ namespace GIS
                                     }
                                 }
                                 else
-                                    if (mo is Polyline)
+                                    if (mo is Polygon)
                                     {
-                                        EditProperties = new LineProperties();
-                                        EditProperties.ShowDialog();
+                                        Polygon pg = mo as Polygon;
+                                        OldBrush = pg.Brush;
+                                        OldPen = pg.Pen;
+                                        EditProperties = new PolygonProperties(ref pg);
+                                        if (EditProperties.ShowDialog() != DialogResult.OK)
+                                        {
+                                            pg.Pen = OldPen;
+                                            pg.Brush = OldBrush;
+                                        }
                                     }
+                                    else
+                                        if (mo is Polyline)
+                                        {
+                                            Polyline pl = mo as Polyline;
+                                            EditProperties = new LineProperties(ref pl);
+                                            OldPen = pl.Pen;
+                                            if (EditProperties.ShowDialog() != DialogResult.OK)
+                                                pl.Pen = OldPen;
+                                        }
+                                        else
+                                            if (mo is Line)
+                                            {
+                                                Line pl = mo as Line;
+                                                EditProperties = new LineProperties(ref pl);
+                                                OldPen = pl.Pen;
+                                                if (EditProperties.ShowDialog() != DialogResult.OK)
+                                                    pl.Pen = OldPen;
+                                            }
                             }
                         }
             Invalidate();
@@ -228,6 +256,14 @@ namespace GIS
         public Layer FindLayer (int index)
         {
             return Layers[index];
+        }
+        public void DeleteLayer(int index)
+        {
+            if (Layers != null && Layers.Count != 0)
+            {
+                Layers.RemoveAt(index);
+                Invalidate();
+            }
         }
     }
 }

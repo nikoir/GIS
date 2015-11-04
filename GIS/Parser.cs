@@ -63,32 +63,32 @@ namespace GIS
                             int Width = Convert.ToInt32(Pen[1]);
                             l.Visibility = true;
                             Color color = IntToColor(Convert.ToInt32(Pen[3]));
-                            l.p = new Pen(color, Width);
+                            l.Pen = new Pen(color, Width);
                             switch (Pen[2])
                             {
                                 case "1":
-                                    l.p.Color = Color.FromArgb(0);
+                                    l.Pen.Color = Color.FromArgb(0);
                                     break;
                                 case "2":
-                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+                                    l.Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
                                     break;
                                 case "3":
-                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                                    l.Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                                     break;
                                 case "4":
-                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                                    l.Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                                     break;
                                 case "5":
-                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                                    l.Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                                     break;
                                 default:
-                                    l.p.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
+                                    l.Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
                                     break;
                             }
                         }
                         else
                         {
-                            l.p = new Pen(Color.Black, 5);
+                            l.Pen = new Pen(Color.Black, 5);
                             l.Visibility = true;
                         }
                         lr.AddMapObject(l);
@@ -165,7 +165,7 @@ namespace GIS
                             }
                             foreach (Polyline polyline in list)
                             {
-                                polyline.p = p;
+                                polyline.Pen = p;
                                 lr.AddMapObject(polyline);
                             }
                         }
@@ -203,7 +203,7 @@ namespace GIS
                                     list.Add(pg);
                                 }
                                 str = sr.ReadLine();
-                                if (str.Contains("Pen")) //Дописать обвобку для полигона
+                                if (str.Contains("Pen"))
                                 {
                                     string[] Pen = str.Split(new char[] { ' ', ',', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
                                     int Width = Convert.ToInt32(Pen[1]);
@@ -271,8 +271,8 @@ namespace GIS
                                     br = new System.Drawing.SolidBrush(Color.Green);
                                 foreach (Polygon polygon in list)
                                 {
-                                    polygon.br = br;
-                                    polygon.p = p;
+                                    polygon.Brush = br;
+                                    polygon.Pen = p;
                                     lr.AddMapObject(polygon);
                                 }
 

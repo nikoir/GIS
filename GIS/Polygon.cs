@@ -5,12 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace GIS
 {
     public class Polygon: Polyline
     {
-        public Brush br { get; set; }
+        public Brush brush;
+        public Brush Brush
+        {
+            get
+            {
+                return brush;
+            }
+            set
+            {
+                brush = value;
+                if (Check())
+                    CurrentLayer.CurrentMap.Invalidate();
+            }
+        }
         const double Epsilon = 1E-9;
         public override double Length()
         {
@@ -20,15 +34,18 @@ namespace GIS
         {
             if (Nodes.Count != 0 && Check())
             {
-                SolidBrush InvertSB = new SolidBrush(Color.Red);
+                Pen InvertPen = new Pen(Color.FromArgb(Pen.Color.A, 0xFF - Pen.Color.R, 0xFF - Pen.Color.G, 0xFF - Pen.Color.B), Pen.Width);
+                InvertPen.DashStyle = Pen.DashStyle;
                 System.Drawing.Point[] PointArray = new System.Drawing.Point[Nodes.Count];
                 for (int i = 0; i < Nodes.Count; i++)
                     PointArray[i] = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
-                g.DrawPolygon(p, PointArray);
+                g.FillPolygon(Brush, PointArray);
                 if (Selected)
-                    g.FillPolygon(InvertSB, PointArray);
+                {
+                    g.DrawPolygon(InvertPen, PointArray);
+                }
                 else
-                    g.FillPolygon(br, PointArray);
+                    g.DrawPolygon(Pen, PointArray);
 
             }
             else

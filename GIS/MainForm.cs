@@ -92,5 +92,14 @@ namespace GIS
         {
             map1.EditObjectProperty();
         }
+
+        private void DeleteMenuItem_Click(object sender, EventArgs e)
+        {
+            if (checkedListBox1.SelectedIndex != -1)
+            {
+                map1.DeleteLayer(checkedListBox1.SelectedIndex);
+                checkedListBox1.Items.RemoveAt(checkedListBox1.SelectedIndex);
+            }
+        }
     }
 }

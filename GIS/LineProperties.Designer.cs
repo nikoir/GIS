@@ -29,29 +29,30 @@
         private void InitializeComponent()
         {
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.WidthTextBox = new System.Windows.Forms.TextBox();
+            this.IncreaseButton = new System.Windows.Forms.Button();
+            this.DecreaseButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ColorPictureBox = new System.Windows.Forms.PictureBox();
+            this.ChangeColorButton = new System.Windows.Forms.Button();
             this.StylesGroupBox = new System.Windows.Forms.GroupBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.DashDotPictureBox = new System.Windows.Forms.PictureBox();
+            this.DashPictureBox = new System.Windows.Forms.PictureBox();
+            this.DotPictureBox = new System.Windows.Forms.PictureBox();
+            this.SolidPictureBox = new System.Windows.Forms.PictureBox();
+            this.DashDotRadioButton = new System.Windows.Forms.RadioButton();
+            this.DashRadioButton = new System.Windows.Forms.RadioButton();
+            this.DotRadioButton = new System.Windows.Forms.RadioButton();
+            this.SolidRadioButton = new System.Windows.Forms.RadioButton();
+            this.OkButton = new System.Windows.Forms.Button();
+            this.CancelButton = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.ColorPictureBox)).BeginInit();
             this.StylesGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DashDotPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DashPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DotPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SolidPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -63,30 +64,33 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Width:";
             // 
-            // textBox1
+            // WidthTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(56, 6);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(33, 20);
-            this.textBox1.TabIndex = 4;
+            this.WidthTextBox.Location = new System.Drawing.Point(56, 6);
+            this.WidthTextBox.Name = "WidthTextBox";
+            this.WidthTextBox.ReadOnly = true;
+            this.WidthTextBox.Size = new System.Drawing.Size(33, 20);
+            this.WidthTextBox.TabIndex = 4;
             // 
-            // button3
+            // IncreaseButton
             // 
-            this.button3.Location = new System.Drawing.Point(95, 4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(23, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.IncreaseButton.Location = new System.Drawing.Point(95, 4);
+            this.IncreaseButton.Name = "IncreaseButton";
+            this.IncreaseButton.Size = new System.Drawing.Size(23, 23);
+            this.IncreaseButton.TabIndex = 6;
+            this.IncreaseButton.Text = "+";
+            this.IncreaseButton.UseVisualStyleBackColor = true;
+            this.IncreaseButton.Click += new System.EventHandler(this.IncreaseButton_Click);
             // 
-            // button4
+            // DecreaseButton
             // 
-            this.button4.Location = new System.Drawing.Point(124, 4);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(23, 23);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
+            this.DecreaseButton.Location = new System.Drawing.Point(124, 4);
+            this.DecreaseButton.Name = "DecreaseButton";
+            this.DecreaseButton.Size = new System.Drawing.Size(23, 23);
+            this.DecreaseButton.TabIndex = 7;
+            this.DecreaseButton.Text = "-";
+            this.DecreaseButton.UseVisualStyleBackColor = true;
+            this.DecreaseButton.Click += new System.EventHandler(this.DecreaseButton_Click);
             // 
             // label1
             // 
@@ -97,161 +101,169 @@
             this.label1.TabIndex = 8;
             this.label1.Text = "Color:";
             // 
-            // pictureBox1
+            // ColorPictureBox
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(56, 33);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(33, 20);
-            this.pictureBox1.TabIndex = 9;
-            this.pictureBox1.TabStop = false;
+            this.ColorPictureBox.Location = new System.Drawing.Point(56, 33);
+            this.ColorPictureBox.Name = "ColorPictureBox";
+            this.ColorPictureBox.Size = new System.Drawing.Size(33, 20);
+            this.ColorPictureBox.TabIndex = 9;
+            this.ColorPictureBox.TabStop = false;
             // 
-            // button1
+            // ChangeColorButton
             // 
-            this.button1.Location = new System.Drawing.Point(95, 33);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ChangeColorButton.Location = new System.Drawing.Point(95, 33);
+            this.ChangeColorButton.Name = "ChangeColorButton";
+            this.ChangeColorButton.Size = new System.Drawing.Size(75, 23);
+            this.ChangeColorButton.TabIndex = 10;
+            this.ChangeColorButton.Text = "Change";
+            this.ChangeColorButton.UseVisualStyleBackColor = true;
+            this.ChangeColorButton.Click += new System.EventHandler(this.ChangeColorButton_Click);
             // 
             // StylesGroupBox
             // 
-            this.StylesGroupBox.Controls.Add(this.pictureBox5);
-            this.StylesGroupBox.Controls.Add(this.pictureBox4);
-            this.StylesGroupBox.Controls.Add(this.pictureBox3);
-            this.StylesGroupBox.Controls.Add(this.pictureBox2);
-            this.StylesGroupBox.Controls.Add(this.radioButton4);
-            this.StylesGroupBox.Controls.Add(this.radioButton3);
-            this.StylesGroupBox.Controls.Add(this.radioButton2);
-            this.StylesGroupBox.Controls.Add(this.radioButton1);
+            this.StylesGroupBox.Controls.Add(this.DashDotPictureBox);
+            this.StylesGroupBox.Controls.Add(this.DashPictureBox);
+            this.StylesGroupBox.Controls.Add(this.DotPictureBox);
+            this.StylesGroupBox.Controls.Add(this.SolidPictureBox);
+            this.StylesGroupBox.Controls.Add(this.DashDotRadioButton);
+            this.StylesGroupBox.Controls.Add(this.DashRadioButton);
+            this.StylesGroupBox.Controls.Add(this.DotRadioButton);
+            this.StylesGroupBox.Controls.Add(this.SolidRadioButton);
             this.StylesGroupBox.Location = new System.Drawing.Point(13, 62);
             this.StylesGroupBox.Name = "StylesGroupBox";
-            this.StylesGroupBox.Size = new System.Drawing.Size(157, 117);
+            this.StylesGroupBox.Size = new System.Drawing.Size(165, 117);
             this.StylesGroupBox.TabIndex = 11;
             this.StylesGroupBox.TabStop = false;
             this.StylesGroupBox.Text = "Styles:";
             // 
-            // pictureBox5
+            // DashDotPictureBox
             // 
-            this.pictureBox5.Location = new System.Drawing.Point(76, 92);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(75, 17);
-            this.pictureBox5.TabIndex = 12;
-            this.pictureBox5.TabStop = false;
+            this.DashDotPictureBox.Location = new System.Drawing.Point(76, 92);
+            this.DashDotPictureBox.Name = "DashDotPictureBox";
+            this.DashDotPictureBox.Size = new System.Drawing.Size(81, 17);
+            this.DashDotPictureBox.TabIndex = 12;
+            this.DashDotPictureBox.TabStop = false;
+            this.DashDotPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.DashDotPictureBox_Paint);
             // 
-            // pictureBox4
+            // DashPictureBox
             // 
-            this.pictureBox4.Location = new System.Drawing.Point(76, 67);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(75, 17);
-            this.pictureBox4.TabIndex = 12;
-            this.pictureBox4.TabStop = false;
-            this.pictureBox4.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox4_Paint);
+            this.DashPictureBox.Location = new System.Drawing.Point(76, 67);
+            this.DashPictureBox.Name = "DashPictureBox";
+            this.DashPictureBox.Size = new System.Drawing.Size(81, 17);
+            this.DashPictureBox.TabIndex = 12;
+            this.DashPictureBox.TabStop = false;
+            this.DashPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.DashPictureBox_Paint);
             // 
-            // pictureBox3
+            // DotPictureBox
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(76, 44);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(75, 17);
-            this.pictureBox3.TabIndex = 12;
-            this.pictureBox3.TabStop = false;
-            this.pictureBox3.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox3_Paint);
+            this.DotPictureBox.Location = new System.Drawing.Point(76, 44);
+            this.DotPictureBox.Name = "DotPictureBox";
+            this.DotPictureBox.Size = new System.Drawing.Size(81, 17);
+            this.DotPictureBox.TabIndex = 12;
+            this.DotPictureBox.TabStop = false;
+            this.DotPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.DotPictureBox_Paint);
             // 
-            // pictureBox2
+            // SolidPictureBox
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(76, 20);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(75, 17);
-            this.pictureBox2.TabIndex = 4;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox2_Paint);
+            this.SolidPictureBox.Location = new System.Drawing.Point(76, 20);
+            this.SolidPictureBox.Name = "SolidPictureBox";
+            this.SolidPictureBox.Size = new System.Drawing.Size(81, 17);
+            this.SolidPictureBox.TabIndex = 4;
+            this.SolidPictureBox.TabStop = false;
+            this.SolidPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.SolidPictureBox_Paint);
             // 
-            // radioButton4
+            // DashDotRadioButton
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(7, 92);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(63, 17);
-            this.radioButton4.TabIndex = 3;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "dashdot";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.DashDotRadioButton.AutoSize = true;
+            this.DashDotRadioButton.Location = new System.Drawing.Point(7, 92);
+            this.DashDotRadioButton.Name = "DashDotRadioButton";
+            this.DashDotRadioButton.Size = new System.Drawing.Size(63, 17);
+            this.DashDotRadioButton.TabIndex = 3;
+            this.DashDotRadioButton.TabStop = true;
+            this.DashDotRadioButton.Text = "dashdot";
+            this.DashDotRadioButton.UseVisualStyleBackColor = true;
+            this.DashDotRadioButton.CheckedChanged += new System.EventHandler(this.DashDotRadioButton_CheckedChanged);
             // 
-            // radioButton3
+            // DashRadioButton
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(7, 68);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(48, 17);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "dash";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.DashRadioButton.AutoSize = true;
+            this.DashRadioButton.Location = new System.Drawing.Point(7, 68);
+            this.DashRadioButton.Name = "DashRadioButton";
+            this.DashRadioButton.Size = new System.Drawing.Size(48, 17);
+            this.DashRadioButton.TabIndex = 2;
+            this.DashRadioButton.TabStop = true;
+            this.DashRadioButton.Text = "dash";
+            this.DashRadioButton.UseVisualStyleBackColor = true;
+            this.DashRadioButton.CheckedChanged += new System.EventHandler(this.DashRadioButton_CheckedChanged);
             // 
-            // radioButton2
+            // DotRadioButton
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(7, 44);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(40, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "dot";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.DotRadioButton.AutoSize = true;
+            this.DotRadioButton.Location = new System.Drawing.Point(7, 44);
+            this.DotRadioButton.Name = "DotRadioButton";
+            this.DotRadioButton.Size = new System.Drawing.Size(40, 17);
+            this.DotRadioButton.TabIndex = 1;
+            this.DotRadioButton.TabStop = true;
+            this.DotRadioButton.Text = "dot";
+            this.DotRadioButton.UseVisualStyleBackColor = true;
+            this.DotRadioButton.CheckedChanged += new System.EventHandler(this.DotRadioButton_CheckedChanged);
             // 
-            // radioButton1
+            // SolidRadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(7, 20);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(46, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "solid";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.SolidRadioButton.AutoSize = true;
+            this.SolidRadioButton.Location = new System.Drawing.Point(7, 20);
+            this.SolidRadioButton.Name = "SolidRadioButton";
+            this.SolidRadioButton.Size = new System.Drawing.Size(46, 17);
+            this.SolidRadioButton.TabIndex = 0;
+            this.SolidRadioButton.TabStop = true;
+            this.SolidRadioButton.Text = "solid";
+            this.SolidRadioButton.UseVisualStyleBackColor = true;
+            this.SolidRadioButton.CheckedChanged += new System.EventHandler(this.SolidRadioButton_CheckedChanged);
             // 
-            // button2
+            // OkButton
             // 
-            this.button2.Location = new System.Drawing.Point(13, 186);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.OkButton.Location = new System.Drawing.Point(13, 186);
+            this.OkButton.Name = "OkButton";
+            this.OkButton.Size = new System.Drawing.Size(75, 23);
+            this.OkButton.TabIndex = 12;
+            this.OkButton.Text = "Ok";
+            this.OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
-            // button5
+            // CancelButton
             // 
-            this.button5.Location = new System.Drawing.Point(95, 185);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 13;
-            this.button5.Text = "button5";
-            this.button5.UseVisualStyleBackColor = true;
+            this.CancelButton.Location = new System.Drawing.Point(95, 185);
+            this.CancelButton.Name = "CancelButton";
+            this.CancelButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelButton.TabIndex = 13;
+            this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // LineProperties
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 213);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.OkButton);
             this.Controls.Add(this.StylesGroupBox);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.ChangeColorButton);
+            this.Controls.Add(this.ColorPictureBox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.DecreaseButton);
+            this.Controls.Add(this.IncreaseButton);
+            this.Controls.Add(this.WidthTextBox);
             this.Controls.Add(this.label2);
             this.Name = "LineProperties";
-            this.Text = "LineProperties";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.Text = "Line properties";
+            ((System.ComponentModel.ISupportInitialize)(this.ColorPictureBox)).EndInit();
             this.StylesGroupBox.ResumeLayout(false);
             this.StylesGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DashDotPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DashPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DotPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SolidPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -260,23 +272,24 @@
         #endregion
 
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox WidthTextBox;
+        private System.Windows.Forms.Button IncreaseButton;
+        private System.Windows.Forms.Button DecreaseButton;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.PictureBox ColorPictureBox;
+        private System.Windows.Forms.Button ChangeColorButton;
         private System.Windows.Forms.GroupBox StylesGroupBox;
-        private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.PictureBox DashDotPictureBox;
+        private System.Windows.Forms.PictureBox DashPictureBox;
+        private System.Windows.Forms.PictureBox DotPictureBox;
+        private System.Windows.Forms.PictureBox SolidPictureBox;
+        private System.Windows.Forms.RadioButton DashDotRadioButton;
+        private System.Windows.Forms.RadioButton DashRadioButton;
+        private System.Windows.Forms.RadioButton DotRadioButton;
+        private System.Windows.Forms.RadioButton SolidRadioButton;
+        private System.Windows.Forms.Button OkButton;
+        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.ColorDialog colorDialog1;
 
     }
 }

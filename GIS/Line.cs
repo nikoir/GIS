@@ -10,9 +10,22 @@ namespace GIS
 {
     public class Line: MapObject
     {
+        Pen pen;
         public GeoPoint GeoPointBegin { get; private set; }
         public GeoPoint GeoPointEnd { get; private set; }
-        public Pen p { get; set; }
+        public Pen Pen
+        {
+            get
+            {
+                return pen;
+            }
+            set
+            {
+                pen = value;
+                if (Check())
+                    CurrentLayer.CurrentMap.Invalidate();
+            }
+        }
 
         public Line(GeoPoint GeoPointBegin, GeoPoint GeoPointEnd)
         {
@@ -58,7 +71,7 @@ namespace GIS
                 MinY = GeoPointBegin.Y;
             else
                 MinY = GeoPointEnd.Y;
-            if (result <= (p.Width / (2 * this.CurrentLayer.CurrentMap.MapScale)) + delta && gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
+            if (result <= (Pen.Width / (2 * this.CurrentLayer.CurrentMap.MapScale)) + delta && gp.X <= MaxX + delta && gp.X >= MinX - delta && gp.Y <= MaxY + delta && gp.Y >= MinY - delta)
                 return true;
             else
                 return false;
@@ -73,8 +86,8 @@ namespace GIS
         {
             if (Check())
             {
-                System.Drawing.Pen CurPen = new Pen(p.Color, p.Width);
-                Pen InvertPen = new Pen(Color.FromArgb(p.Color.A, 0xFF - p.Color.R, 0xFF - p.Color.G, 0xFF - p.Color.B), p.Width);
+                System.Drawing.Pen CurPen = new Pen(Pen.Color, Pen.Width);
+                Pen InvertPen = new Pen(Color.FromArgb(Pen.Color.A, 0xFF - Pen.Color.R, 0xFF - Pen.Color.G, 0xFF - Pen.Color.B), Pen.Width);
                 System.Drawing.Point p1 = CurrentLayer.CurrentMap.MapToScreen(GeoPointBegin);
                 System.Drawing.Point p2 = CurrentLayer.CurrentMap.MapToScreen(GeoPointEnd);
                 if (Selected)
