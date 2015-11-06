@@ -49,6 +49,7 @@ namespace GIS
         }
         abstract public void Draw(System.Drawing.Graphics g);
         abstract public GeoPoint FindMaxCoord();
+        abstract public GeoPoint FindMinCoord();
         abstract public bool IsCross(GeoPoint gp, double delta);
     }
 }

@@ -213,17 +213,68 @@ namespace GIS
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            System.Drawing.Graphics g = this.CreateGraphics();
-            g.Clear(this.BackColor);
             if (Layers.Count != 0)
                 foreach (Layer lr in Layers)
                     if (lr.Visible)
                         if (lr.MapObjects.Count != 0)
                             for (int i = lr.MapObjects.Count - 1; i >= 0; i--)
                                 if (lr.MapObjects[i].Visibility)
-                                    lr.MapObjects[i].Draw(g);
+                                    lr.MapObjects[i].Draw(e.Graphics);
+        }
+        public GeoPoint FindMaxCoord()
+        {
+            if (Layers.Count != 0)
+            {
+                GeoPoint MaxCoord = Layers[0].FindMaxCoord();
+                GeoPoint gp;
+                foreach (Layer lr in Layers)
+                {
+                    gp = lr.FindMaxCoord();
+                    if (gp.X > MaxCoord.X)
+                        MaxCoord.X = gp.X;
+                    if (gp.Y > MaxCoord.Y)
+                        MaxCoord.Y = gp.Y;
+                }
+                return MaxCoord;
+            }
+            else
+                return null;
         }
 
+        public GeoPoint FindMinCoord()
+        {
+            if (Layers.Count != 0)
+            {
+                GeoPoint MinCoord = Layers[0].FindMinCoord();
+                GeoPoint gp;
+                foreach (Layer lr in Layers)
+                {
+                    gp = lr.FindMaxCoord();
+                    if (gp.X < MinCoord.X)
+                        MinCoord.X = gp.X;
+                    if (gp.Y < MinCoord.Y)
+                        MinCoord.Y = gp.Y;
+                }
+                return MinCoord;
+            }
+            else
+                return null;
+        }
+        public void CenterLayers()
+        {
+            GeoPoint Center = new GeoPoint();
+            GeoPoint MaxCoord = FindMaxCoord();
+            GeoPoint MinCoord = FindMinCoord();
+            double Width = MaxCoord.X - MinCoord.X;
+            double Height = MaxCoord.Y - MinCoord.Y;
+            Center.X = Width / 2 + MinCoord.X;
+            Center.Y = Height / 2 + MinCoord.Y;
+            this.Center = Center;
+            if (Width > Height)
+                MapScale = this.Width / Width;
+            else
+                MapScale = this.Height / Height;
+        }
         private void InitializeComponent()
         {
             this.SuspendLayout();
@@ -233,6 +284,7 @@ namespace GIS
             this.Name = "Map";
             this.Size = new System.Drawing.Size(153, 151);
             this.ResumeLayout(false);
+            this.DoubleBuffered = true;
 
         }
         public void AddLayer(Layer layer)
@@ -242,6 +294,7 @@ namespace GIS
                 layer.CurrentMap = this;
                 layer.Order = Layers.Count;
                 Layers.Add(layer);
+                CenterLayers();
             }
             else
                 throw new Exception("Layer with this name already exists!");

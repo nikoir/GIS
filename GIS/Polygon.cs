@@ -34,14 +34,14 @@ namespace GIS
         {
             if (Nodes.Count != 0 && Check())
             {
-                Pen InvertPen = new Pen(Color.FromArgb(Pen.Color.A, 0xFF - Pen.Color.R, 0xFF - Pen.Color.G, 0xFF - Pen.Color.B), Pen.Width);
-                InvertPen.DashStyle = Pen.DashStyle;
                 System.Drawing.Point[] PointArray = new System.Drawing.Point[Nodes.Count];
                 for (int i = 0; i < Nodes.Count; i++)
                     PointArray[i] = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
                 g.FillPolygon(Brush, PointArray);
                 if (Selected)
                 {
+                    Pen InvertPen = new Pen(Color.FromArgb(Pen.Color.A, 0xFF - Pen.Color.R, 0xFF - Pen.Color.G, 0xFF - Pen.Color.B), Pen.Width);
+                    InvertPen.DashStyle = Pen.DashStyle;
                     g.DrawPolygon(InvertPen, PointArray);
                 }
                 else

@@ -114,6 +114,28 @@ namespace GIS
                 return null;
         }
 
+        public override GeoPoint FindMinCoord()
+        {
+            if (Nodes.Count != 0)
+            {
+                GeoPoint gp = new GeoPoint();
+                double MinX = Nodes[0].X;
+                double MinY = Nodes[0].Y;
+                foreach (var Node in Nodes)
+                {
+                    if (Node.X < MinX)
+                        MinX = Node.X;
+                    if (Node.Y < MinY)
+                        MinY = Node.Y;
+                }
+                gp.X = MinX;
+                gp.Y = MinY;
+                return gp;
+            }
+            else
+                return null;
+        }
+
         public virtual double Length()
         {
             double length = 0;
@@ -127,14 +149,16 @@ namespace GIS
             {
                 System.Drawing.Point p1;
                 System.Drawing.Point p2;
-                Pen InvertPen = new Pen(Color.FromArgb(Pen.Color.A, 0xFF - Pen.Color.R, 0xFF - Pen.Color.G, 0xFF - Pen.Color.B), Pen.Width);
-                InvertPen.DashStyle = Pen.DashStyle;
                 for (int i = 0; i < Nodes.Count - 1; i++)
                 {
                     p1 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i]);
                     p2 = CurrentLayer.CurrentMap.MapToScreen(Nodes[i + 1]);
                     if (Selected)
+                    {
+                        Pen InvertPen = new Pen(Color.FromArgb(Pen.Color.A, 0xFF - Pen.Color.R, 0xFF - Pen.Color.G, 0xFF - Pen.Color.B), Pen.Width);
+                        InvertPen.DashStyle = Pen.DashStyle;
                         g.DrawLine(InvertPen, p1, p2);
+                    }
                     else
                         g.DrawLine(Pen, p1, p2);
                 }

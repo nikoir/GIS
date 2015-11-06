@@ -12,6 +12,7 @@ namespace GIS
     {
         string title;
         Font font;
+        SolidBrush solidBrush;
         public string Title
         {
             get
@@ -39,7 +40,19 @@ namespace GIS
             }
         }
         public GeoPoint BeginPoint { get; private set; }
-        public SolidBrush SolidBrush { get; set; }
+        public SolidBrush SolidBrush
+        {
+            get
+            {
+                return solidBrush;
+            }
+            set 
+            {
+                solidBrush = value;
+                if (Check())
+                    CurrentLayer.CurrentMap.Invalidate();
+            }
+        }
 
         public Text(string text, Font Font, GeoPoint BeginPoint)
         {
@@ -67,14 +80,15 @@ namespace GIS
 
         public override void Draw(System.Drawing.Graphics g)
         {
-            System.Drawing.Font CurFont = new Font(Font.FontFamily, Font.Size);
-            SolidBrush InvertSB = new SolidBrush(Color.FromArgb(SolidBrush.Color.A, 0xFF - SolidBrush.Color.R, 0xFF - SolidBrush.Color.G, 0xFF - SolidBrush.Color.B));
             if (Check())
             {
                 if (Selected)
-                    g.DrawString(Title, CurFont, InvertSB, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+                {
+                    SolidBrush InvertSB = new SolidBrush(Color.FromArgb(SolidBrush.Color.A, 0xFF - SolidBrush.Color.R, 0xFF - SolidBrush.Color.G, 0xFF - SolidBrush.Color.B));
+                    g.DrawString(Title, Font, InvertSB, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+                }
                 else
-                    g.DrawString(Title, CurFont, SolidBrush, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+                    g.DrawString(Title, Font, SolidBrush, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
             }
             else
                 return;
@@ -87,6 +101,15 @@ namespace GIS
             size.Height /= (float)CurrentLayer.CurrentMap.MapScale;
             size.Width /= (float)CurrentLayer.CurrentMap.MapScale;
             return new GeoPoint(BeginPoint.X + size.Width, BeginPoint.Y);
+        }
+
+        public override GeoPoint FindMinCoord()
+        {
+            SizeF size;
+            size = TextRenderer.MeasureText(Title, Font);
+            size.Height /= (float)CurrentLayer.CurrentMap.MapScale;
+            size.Width /= (float)CurrentLayer.CurrentMap.MapScale;
+            return new GeoPoint(BeginPoint.X, BeginPoint.Y - size.Height);
         }
 
         public Text(string text, Font Font, double X, double Y)

@@ -70,11 +70,13 @@ namespace GIS
 
         public override void Draw(Graphics g)
         {
-            SolidBrush InvertSB = new SolidBrush(Color.FromArgb(SolidBrush.Color.A, 0xFF - SolidBrush.Color.R, 0xFF - SolidBrush.Color.G, 0xFF - SolidBrush.Color.B));
             if (Check())
             {
                 if (Selected)
+                {
+                    SolidBrush InvertSB = new SolidBrush(Color.FromArgb(SolidBrush.Color.A, 0xFF - SolidBrush.Color.R, 0xFF - SolidBrush.Color.G, 0xFF - SolidBrush.Color.B));
                     g.DrawString(new string(Symbol, 1), Font, InvertSB, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
+                }
                 else
                     g.DrawString(new string(Symbol, 1), Font, SolidBrush, CurrentLayer.CurrentMap.MapToScreen(BeginPoint));
             }
@@ -89,6 +91,14 @@ namespace GIS
             size.Height /= (float)CurrentLayer.CurrentMap.MapScale;
             size.Width /= (float)CurrentLayer.CurrentMap.MapScale;
             return new GeoPoint(BeginPoint.X + size.Width, BeginPoint.Y);
+        }
+        public override GeoPoint FindMinCoord()
+        {
+            SizeF size;
+            size = TextRenderer.MeasureText(new string(Symbol, 1), Font);
+            size.Height /= (float)CurrentLayer.CurrentMap.MapScale;
+            size.Width /= (float)CurrentLayer.CurrentMap.MapScale;
+            return new GeoPoint(BeginPoint.X, BeginPoint.Y - size.Height);
         }
     }
 }

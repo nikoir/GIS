@@ -55,6 +55,20 @@ namespace GIS
             return gp;
         }
 
+        public override GeoPoint FindMinCoord()
+        {
+            GeoPoint gp = new GeoPoint();
+            if (GeoPointBegin.X < GeoPointEnd.X)
+                gp.X = GeoPointBegin.X;
+            else
+                gp.X = GeoPointEnd.X;
+            if (GeoPointBegin.Y < GeoPointEnd.Y)
+                gp.Y = GeoPointBegin.Y;
+            else
+                gp.Y = GeoPointEnd.Y;
+            return gp;
+        }
+
         public override bool IsCross(GeoPoint gp, double delta)
         {
             double result = Math.Abs(((GeoPointBegin.Y - GeoPointEnd.Y) * gp.X + (GeoPointEnd.X - GeoPointBegin.X) * gp.Y + GeoPointBegin.X * GeoPointEnd.Y - GeoPointEnd.X * GeoPointBegin.Y) / Math.Sqrt((GeoPointEnd.X - GeoPointBegin.X) * (GeoPointEnd.X - GeoPointBegin.X) + (GeoPointEnd.Y - GeoPointBegin.Y) * (GeoPointEnd.Y - GeoPointBegin.Y)));
@@ -86,14 +100,16 @@ namespace GIS
         {
             if (Check())
             {
-                System.Drawing.Pen CurPen = new Pen(Pen.Color, Pen.Width);
-                Pen InvertPen = new Pen(Color.FromArgb(Pen.Color.A, 0xFF - Pen.Color.R, 0xFF - Pen.Color.G, 0xFF - Pen.Color.B), Pen.Width);
+               
                 System.Drawing.Point p1 = CurrentLayer.CurrentMap.MapToScreen(GeoPointBegin);
                 System.Drawing.Point p2 = CurrentLayer.CurrentMap.MapToScreen(GeoPointEnd);
                 if (Selected)
-                    g.DrawLine(InvertPen, p1, p2);
+                {
+                     Pen InvertPen = new Pen(Color.FromArgb(Pen.Color.A, 0xFF - Pen.Color.R, 0xFF - Pen.Color.G, 0xFF - Pen.Color.B), Pen.Width);
+                     g.DrawLine(InvertPen, p1, p2);
+                }
                 else
-                    g.DrawLine(CurPen, p1, p2);
+                    g.DrawLine(Pen, p1, p2);
             }
             else
                 return;

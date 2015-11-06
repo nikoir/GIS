@@ -59,6 +59,31 @@ namespace GIS
             }
             return null;
         }
+
+        public GeoPoint FindMinCoord()
+        {
+            if (MapObjects.Count != 0)
+            {
+                double MinX;
+                double MinY;
+                GeoPoint MinCoords = new GeoPoint();
+                GeoPoint gp = new GeoPoint();
+                MinX = MapObjects[0].FindMinCoord().X;
+                MinY = MapObjects[0].FindMinCoord().Y;
+                foreach (var MapObject in MapObjects)
+                {
+                    MinCoords = MapObject.FindMinCoord();
+                    if (MinCoords.X < MinX)
+                        MinX = MinCoords.X;
+                    if (MinCoords.Y < MinY)
+                        MinY = MinCoords.Y;
+                    gp.X = MinX;
+                    gp.Y = MinY;
+                }
+                return gp;
+            }
+            return null;
+        }
         public MapObject FindObject (GeoPoint gp, double delta)
         {
             MaxCoords = new GeoPoint(FindMaxCoord().X, FindMaxCoord().Y);
