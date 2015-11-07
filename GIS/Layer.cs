@@ -20,7 +20,7 @@ namespace GIS
             {
                 visible = value;
                 if (CurrentMap != null)
-                    CurrentMap.Invalidate();
+                    CurrentMap.Draw();
             }
         }
         public Map CurrentMap { get; set; }

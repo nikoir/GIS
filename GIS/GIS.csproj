@@ -74,7 +74,7 @@
     <Compile Include="Layer.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="Map.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="MapObject.cs" />
     <Compile Include="Parser.cs" />

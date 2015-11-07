@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace GIS
 {
-    public class Map: UserControl
+    public class Map: PictureBox
     {
         public List<Layer> Layers = new List<Layer>();
         GeoPoint center;
@@ -21,7 +22,7 @@ namespace GIS
             set
             {
                 center = value;
-                Invalidate();
+                Draw();
             }
         }
         double mapScale;
@@ -36,7 +37,7 @@ namespace GIS
             set
             {
                 mapScale = value;
-                Invalidate();
+                Draw();
             }
         }
         public Map(GeoPoint Center)
@@ -48,6 +49,12 @@ namespace GIS
             this.MouseMove += Map_MouseMove;
             this.MouseDown += Map_MouseDown;
             this.MouseWheel += Map_MouseWheel;
+            this.SizeChanged += Map_SizeChanged;
+        }
+
+        void Map_SizeChanged(object sender, EventArgs e)
+        {
+            Draw();
         }
 
         bool LayerExists(string LayerName)
@@ -61,9 +68,9 @@ namespace GIS
         {
             Center = ScreenToMap(new System.Drawing.Point(e.X, e.Y));
             if (e.Delta > 0)
-                MapScale *= 2;
+                MapScale *= 1.2;
             else
-                MapScale /= 2;
+                MapScale /= 1.2;
         }
 
         public Map()
@@ -88,7 +95,7 @@ namespace GIS
                 Center.Y -= (CurY - e.Y)/MapScale;
                 CurX = e.X;
                 CurY = e.Y;
-                this.Invalidate();
+                this.Draw();
             }
         }
         void Map_MouseClick(object sender, MouseEventArgs e)
@@ -190,8 +197,9 @@ namespace GIS
                                                     pl.Pen = OldPen;
                                             }
                             }
+                            break;
                         }
-            Invalidate();
+            Draw();
         }
 
         public System.Drawing.Point MapToScreen(GeoPoint gp)
@@ -208,18 +216,21 @@ namespace GIS
             gp.X = (point.X - Width / 2) / MapScale + Center.X;
             gp.Y = (Height / 2 - point.Y) / MapScale + Center.Y;
             return gp;
-
         }
-
-        protected override void OnPaint(PaintEventArgs e)
+        public void Draw()
         {
             if (Layers.Count != 0)
+            {
+                Bitmap map = new Bitmap(this.Width, this.Height);
+                Graphics g = Graphics.FromImage(map);
                 foreach (Layer lr in Layers)
                     if (lr.Visible)
                         if (lr.MapObjects.Count != 0)
                             for (int i = lr.MapObjects.Count - 1; i >= 0; i--)
                                 if (lr.MapObjects[i].Visibility)
-                                    lr.MapObjects[i].Draw(e.Graphics);
+                                    lr.MapObjects[i].Draw(ref g);
+                this.Image = map;
+            }
         }
         public GeoPoint FindMaxCoord()
         {
@@ -285,7 +296,6 @@ namespace GIS
             this.Size = new System.Drawing.Size(153, 151);
             this.ResumeLayout(false);
             this.DoubleBuffered = true;
-
         }
         public void AddLayer(Layer layer)
         {
@@ -315,7 +325,7 @@ namespace GIS
             if (Layers != null && Layers.Count != 0)
             {
                 Layers.RemoveAt(index);
-                Invalidate();
+                Draw();
             }
         }
     }

@@ -23,7 +23,7 @@ namespace GIS
             {
                 pen = value;
                 if (Check())
-                    CurrentLayer.CurrentMap.Invalidate();
+                    CurrentLayer.CurrentMap.Draw();
             }
         }
 
@@ -96,11 +96,10 @@ namespace GIS
             return Math.Sqrt((GeoPointBegin.X - GeoPointEnd.X) * (GeoPointBegin.X - GeoPointEnd.X) + (GeoPointBegin.Y - GeoPointEnd.Y) * (GeoPointBegin.Y - GeoPointEnd.Y));
         }
 
-        public override void Draw(System.Drawing.Graphics g)
+        public override void Draw(ref System.Drawing.Graphics g)
         {
             if (Check())
             {
-               
                 System.Drawing.Point p1 = CurrentLayer.CurrentMap.MapToScreen(GeoPointBegin);
                 System.Drawing.Point p2 = CurrentLayer.CurrentMap.MapToScreen(GeoPointEnd);
                 if (Selected)

@@ -37,7 +37,7 @@ namespace GIS
                     foreach (MapObject m in CurrentLayer.MapObjects)
                         if (m != this && m.Selected == true)
                             m.Selected = false;
-                CurrentLayer.CurrentMap.Invalidate();
+                CurrentLayer.CurrentMap.Draw();
             }
         }
 
@@ -47,7 +47,7 @@ namespace GIS
                 return false;
             return true;
         }
-        abstract public void Draw(System.Drawing.Graphics g);
+        abstract public void Draw(ref System.Drawing.Graphics g);
         abstract public GeoPoint FindMaxCoord();
         abstract public GeoPoint FindMinCoord();
         abstract public bool IsCross(GeoPoint gp, double delta);

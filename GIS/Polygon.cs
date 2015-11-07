@@ -22,7 +22,7 @@ namespace GIS
             {
                 brush = value;
                 if (Check())
-                    CurrentLayer.CurrentMap.Invalidate();
+                    CurrentLayer.CurrentMap.Draw();
             }
         }
         const double Epsilon = 1E-9;
@@ -30,7 +30,7 @@ namespace GIS
         {
             return base.Length() + Math.Sqrt((Nodes[0].X - Nodes[Nodes.Count - 1].X) * (Nodes[0].X - Nodes[Nodes.Count - 1].X) + (Nodes[0].Y - Nodes[Nodes.Count - 1].Y) * (Nodes[0].Y - Nodes[Nodes.Count - 1].Y));
         }
-        public override void Draw(System.Drawing.Graphics g)
+        public override void Draw(ref System.Drawing.Graphics g)
         {
             if (Nodes.Count != 0 && Check())
             {

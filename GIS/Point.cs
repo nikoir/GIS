@@ -21,7 +21,7 @@ namespace GIS
             {
                 font = value;
                 if (Check())
-                    CurrentLayer.CurrentMap.Invalidate();
+                    CurrentLayer.CurrentMap.Draw();
             }
         }
         public char Symbol { get; set; }
@@ -36,7 +36,7 @@ namespace GIS
             {
                 solidBrush = value;
                 if (Check())
-                    CurrentLayer.CurrentMap.Invalidate();
+                    CurrentLayer.CurrentMap.Draw();
             }
         }
         public Point (double X, double Y, char Symbol)
@@ -68,7 +68,7 @@ namespace GIS
             return false;
         }
 
-        public override void Draw(Graphics g)
+        public override void Draw(ref Graphics g)
         {
             if (Check())
             {

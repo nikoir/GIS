@@ -23,7 +23,7 @@ namespace GIS
             {
                 title = value;
                 if (Check())
-                    CurrentLayer.CurrentMap.Invalidate();
+                    CurrentLayer.CurrentMap.Draw();
             }
         }
         public Font Font
@@ -36,7 +36,7 @@ namespace GIS
             {
                 font = value;
                 if (Check())
-                    CurrentLayer.CurrentMap.Invalidate();
+                    CurrentLayer.CurrentMap.Draw();
             }
         }
         public GeoPoint BeginPoint { get; private set; }
@@ -50,7 +50,7 @@ namespace GIS
             {
                 solidBrush = value;
                 if (Check())
-                    CurrentLayer.CurrentMap.Invalidate();
+                    CurrentLayer.CurrentMap.Draw();
             }
         }
 
@@ -78,7 +78,7 @@ namespace GIS
             return false;
         }
 
-        public override void Draw(System.Drawing.Graphics g)
+        public override void Draw(ref System.Drawing.Graphics g)
         {
             if (Check())
             {

@@ -22,7 +22,7 @@ namespace GIS
             {
                 pen = value;
                 if (Check())
-                    CurrentLayer.CurrentMap.Invalidate();
+                    CurrentLayer.CurrentMap.Draw();
             }
         }
         public Polyline()
@@ -143,7 +143,7 @@ namespace GIS
                 length += Math.Sqrt((Nodes[i].X - Nodes[i + 1].X) * (Nodes[i].X - Nodes[i + 1].X) + (Nodes[i].Y - Nodes[i + 1].Y) * (Nodes[i].Y - Nodes[i + 1].Y));
             return length;
         }
-        public override void Draw(System.Drawing.Graphics g)
+        public override void Draw(ref System.Drawing.Graphics g)
         {
             if (Check())
             {
